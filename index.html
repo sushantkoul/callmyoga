@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CallMyOga — Anonymous Car Contact · Nigeria</title>
+<title>CallMyOga — Someone blocked your car? We got you covered.</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -20,29 +20,22 @@
   --card-bg: #0F1E35;
   --border: rgba(255,255,255,0.08);
   --radius: 16px;
-  --radius-sm: 10px;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
 h1,h2,h3,h4 { font-family: 'Syne', sans-serif; }
-
-/* ── ROUTER ── */
 .page { display: none; }
 .page.active { display: block; }
 
-/* ── NAV ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(10,22,40,0.92);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 24px;
+  background: rgba(10,22,40,0.92); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border); padding: 14px 24px;
   display: flex; align-items: center; justify-content: space-between;
 }
 .logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; cursor: pointer; }
 .logo span { color: var(--green); }
-nav .nav-links { display: flex; gap: 8px; }
+nav .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
 nav .nav-links button {
   background: none; border: 1px solid var(--border); color: var(--muted);
   padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 13px;
@@ -50,7 +43,6 @@ nav .nav-links button {
 }
 nav .nav-links button:hover, nav .nav-links button.active { border-color: var(--green); color: var(--green); }
 
-/* ── HERO ── */
 #page-home { padding-top: 80px; }
 .hero {
   min-height: 100vh; display: flex; flex-direction: column;
@@ -69,138 +61,74 @@ nav .nav-links button:hover, nav .nav-links button.active { border-color: var(--
   margin-bottom: 2rem; letter-spacing: 1px; text-transform: uppercase;
   animation: fadeUp .6s ease both;
 }
-.hero h1 {
-  font-size: clamp(42px, 8vw, 80px); font-weight: 800; line-height: 1.05;
-  margin-bottom: 1.5rem; animation: fadeUp .6s .1s ease both;
-}
+.hero h1 { font-size: clamp(42px, 8vw, 80px); font-weight: 800; line-height: 1.05; margin-bottom: 1.5rem; animation: fadeUp .6s .1s ease both; }
 .hero h1 em { color: var(--green); font-style: normal; }
-.hero p {
-  font-size: 18px; color: var(--muted); max-width: 520px; line-height: 1.7;
-  margin-bottom: 2.5rem; animation: fadeUp .6s .2s ease both;
-}
+.hero p { font-size: 18px; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 2.5rem; animation: fadeUp .6s .2s ease both; }
 .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; animation: fadeUp .6s .3s ease both; }
-.btn-primary {
-  background: var(--green); color: var(--navy); font-weight: 600;
-  padding: 14px 28px; border-radius: 12px; border: none; cursor: pointer;
-  font-size: 15px; font-family: 'DM Sans', sans-serif; transition: all .2s;
-}
+.btn-primary { background: var(--green); color: var(--navy); font-weight: 600; padding: 14px 28px; border-radius: 12px; border: none; cursor: pointer; font-size: 15px; font-family: 'DM Sans', sans-serif; transition: all .2s; }
 .btn-primary:hover { background: #00e05a; transform: translateY(-1px); }
-.btn-outline {
-  background: none; color: var(--white); font-weight: 500;
-  padding: 14px 28px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer;
-  font-size: 15px; font-family: 'DM Sans', sans-serif; transition: all .2s;
-}
+.btn-outline { background: none; color: var(--white); font-weight: 500; padding: 14px 28px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; font-size: 15px; font-family: 'DM Sans', sans-serif; transition: all .2s; }
 .btn-outline:hover { border-color: var(--green); color: var(--green); }
 
-/* How it works */
 .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
 .section-label { font-size: 12px; color: var(--green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
 .section h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 700; margin-bottom: 3rem; }
-
 .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-.step-card {
-  background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 28px; position: relative; overflow: hidden; transition: border-color .2s;
-}
+.step-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; position: relative; overflow: hidden; transition: border-color .2s; }
 .step-card:hover { border-color: rgba(0,200,83,0.3); }
-.step-num {
-  font-family: 'Syne', sans-serif; font-size: 56px; font-weight: 800;
-  color: rgba(0,200,83,0.08); position: absolute; top: 10px; right: 16px;
-}
+.step-num { font-family: 'Syne', sans-serif; font-size: 56px; font-weight: 800; color: rgba(0,200,83,0.08); position: absolute; top: 10px; right: 16px; }
 .step-icon { font-size: 28px; margin-bottom: 1rem; }
 .step-card h3 { font-size: 16px; margin-bottom: 8px; }
 .step-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-
-/* Stats */
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin: 60px 0; }
 .stat { text-align: center; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 16px; }
 .stat-num { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--green); }
 .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
-/* ── QR LANDING PAGE ── */
+/* SCAN PAGE */
 #page-scan { padding-top: 80px; min-height: 100vh; }
 .scan-wrap { max-width: 420px; margin: 0 auto; padding: 40px 20px; }
 .scan-top { text-align: center; margin-bottom: 2rem; }
-.plate-badge {
-  display: inline-block; background: #fff; color: #000;
-  border: 3px solid #000; border-radius: 8px;
-  padding: 6px 20px; font-family: 'Syne', sans-serif;
-  font-size: 22px; font-weight: 700; letter-spacing: 3px;
-  margin-bottom: 12px;
-}
-.car-avatar {
-  width: 80px; height: 80px; border-radius: 50%;
-  background: var(--green-dark); display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px; font-size: 36px;
-}
-.masked-num {
-  background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
-  padding: 8px 16px; font-size: 14px; color: var(--muted); display: inline-flex;
-  align-items: center; gap: 8px; margin-bottom: 1rem;
-}
+.plate-badge { display: inline-block; background: #fff; color: #000; border: 3px solid #000; border-radius: 8px; padding: 6px 20px; font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
+.car-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--green-dark); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 36px; }
+.masked-num { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; font-size: 14px; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
 .masked-num strong { color: var(--white); font-family: 'Syne', sans-serif; letter-spacing: 2px; }
-.alert-box {
-  background: rgba(255,214,0,0.08); border: 1px solid rgba(255,214,0,0.25);
-  border-radius: 12px; padding: 14px 16px; font-size: 13px; color: #FFD600;
-  display: flex; gap: 10px; align-items: flex-start; margin-bottom: 1.5rem;
-}
-.contact-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 12px; }
-.wa-btn {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; background: var(--wa); color: #fff; border: none;
-  border-radius: 12px; padding: 16px; font-size: 15px; font-weight: 600;
-  cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s;
-  margin-bottom: 10px;
-}
+.alert-box { background: rgba(255,214,0,0.08); border: 1px solid rgba(255,214,0,0.25); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: #FFD600; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 1.5rem; }
+.wa-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: var(--wa); color: #fff; border: none; border-radius: 12px; padding: 16px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s; margin-bottom: 10px; }
 .wa-btn:hover { background: #1ebe5d; }
-.call-btn {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; background: var(--navy-light); color: #fff; border: 1px solid var(--border);
-  border-radius: 12px; padding: 16px; font-size: 15px; font-weight: 600;
-  cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s; margin-bottom: 16px;
-}
+.call-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: var(--navy-light); color: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s; margin-bottom: 16px; }
 .call-btn:hover { background: var(--green-dark); border-color: var(--green); }
-.msg-area { width: 100%; background: var(--navy-mid); border: 1px solid var(--border); border-radius: 10px; padding: 12px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px; resize: none; }
-.msg-send { width: 100%; background: var(--green); color: var(--navy); border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px; font-family: 'DM Sans', sans-serif; }
 .privacy-note { text-align: center; font-size: 11px; color: var(--muted); margin-top: 1.5rem; }
 .privacy-note span { color: var(--green); }
+.report-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: none; border: 1px solid rgba(255,59,48,0.3); color: rgba(255,59,48,0.7); border-radius: 10px; padding: 10px; font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 12px; transition: all .2s; }
+.report-btn:hover { border-color: var(--red); color: var(--red); }
 
-/* ── REGISTRATION ── */
+/* REGISTER */
 #page-register { padding-top: 80px; min-height: 100vh; }
 .reg-wrap { max-width: 520px; margin: 0 auto; padding: 40px 20px; }
 .reg-wrap h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-.reg-wrap p { color: var(--muted); margin-bottom: 2rem; font-size: 15px; }
+.reg-wrap > p { color: var(--muted); margin-bottom: 2rem; font-size: 15px; }
 .form-group { margin-bottom: 20px; }
 .form-group label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.5px; }
-.form-group input, .form-group select {
-  width: 100%; background: var(--card-bg); border: 1px solid var(--border);
-  border-radius: 10px; padding: 14px 16px; color: var(--white); font-size: 15px;
-  font-family: 'DM Sans', sans-serif; outline: none; transition: border-color .2s;
-}
+.form-group input, .form-group select { width: 100%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; color: var(--white); font-size: 15px; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color .2s; }
 .form-group input:focus, .form-group select:focus { border-color: var(--green); }
 .form-group select option { background: var(--navy-mid); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.qr-code-box {
-  background: var(--card-bg); border: 1px dashed rgba(0,200,83,0.4); border-radius: 12px;
-  padding: 24px; text-align: center; margin: 1.5rem 0;
-}
+.consent-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+.consent-box label { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted); cursor: pointer; line-height: 1.5; }
+.consent-box input[type=checkbox] { width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0; accent-color: var(--green); }
+.consent-box a { color: var(--green); text-decoration: none; }
+.qr-code-box { background: var(--card-bg); border: 1px dashed rgba(0,200,83,0.4); border-radius: 12px; padding: 24px; text-align: center; margin: 1.5rem 0; }
 .qr-placeholder { width: 120px; height: 120px; border-radius: 8px; margin: 0 auto 12px; background: #fff; display: flex; align-items: center; justify-content: center; }
 .qr-placeholder svg { width: 100px; height: 100px; }
-.submit-reg {
-  width: 100%; background: var(--green); color: var(--navy); font-weight: 700;
-  padding: 16px; border-radius: 12px; border: none; cursor: pointer;
-  font-size: 16px; font-family: 'Syne', sans-serif; transition: all .2s;
-}
+.submit-reg { width: 100%; background: var(--green); color: var(--navy); font-weight: 700; padding: 16px; border-radius: 12px; border: none; cursor: pointer; font-size: 16px; font-family: 'Syne', sans-serif; transition: all .2s; }
 .submit-reg:hover { background: #00e05a; }
-.success-box {
-  display: none; background: rgba(0,200,83,0.1); border: 1px solid rgba(0,200,83,0.3);
-  border-radius: 12px; padding: 20px; text-align: center; margin-top: 1rem;
-}
+.success-box { display: none; background: rgba(0,200,83,0.1); border: 1px solid rgba(0,200,83,0.3); border-radius: 12px; padding: 20px; text-align: center; margin-top: 1rem; }
 
-/* ── DASHBOARD ── */
+/* DASHBOARD */
 #page-dashboard { padding-top: 80px; min-height: 100vh; }
 .dash-wrap { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
-.dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: gap; }
+.dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
 .dash-header h2 { font-size: 26px; font-weight: 700; }
 .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 2rem; }
 .ds { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
@@ -220,47 +148,24 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .status-inactive { background: rgba(255,59,48,0.15); color: var(--red); }
 .action-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all .2s; }
 .action-btn:hover { border-color: var(--green); color: var(--green); }
-.search-input {
-  background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
-  padding: 8px 14px; color: var(--white); font-size: 13px; font-family: 'DM Sans', sans-serif;
-  outline: none; width: 200px;
-}
+.search-input { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; color: var(--white); font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none; width: 200px; }
 .search-input:focus { border-color: var(--green); }
 .add-btn { background: var(--green); color: var(--navy); border: none; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-
-/* Notification log */
-.notif-log { margin-top: 1.5rem; }
 .notif-item { display: flex; gap: 14px; align-items: flex-start; padding: 14px 20px; border-bottom: 1px solid var(--border); }
 .notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); margin-top: 5px; flex-shrink: 0; }
 .notif-dot.wa { background: var(--wa); }
 .notif-dot.call { background: var(--gold); }
+.notif-dot.report { background: var(--red); }
 .notif-text { font-size: 14px; }
 .notif-time { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-/* WhatsApp flow modal */
-.modal-overlay {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center;
-}
-.modal-overlay.open { display: flex; }
-.modal { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 20px; padding: 28px; max-width: 380px; width: 90%; animation: fadeUp .3s ease; }
-.modal h3 { font-size: 18px; margin-bottom: 8px; }
-.modal p { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; }
-.chat-bubble { background: var(--card-bg); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; font-size: 14px; }
-.chat-bubble.from-system { border-left: 3px solid var(--green); }
-.chat-bubble .meta { font-size: 11px; color: var(--muted); margin-top: 6px; }
-.modal-close { width: 100%; background: none; border: 1px solid var(--border); color: var(--muted); padding: 12px; border-radius: 10px; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 12px; }
-
-/* ── SHOP ── */
+/* SHOP */
 #page-shop { padding-top: 80px; min-height: 100vh; }
 .shop-wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
 .shop-wrap h2 { font-size: 32px; font-weight: 700; margin-bottom: 4px; }
 .shop-wrap > p { color: var(--muted); margin-bottom: 2.5rem; }
 .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-.product-card {
-  background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 24px; transition: border-color .2s, transform .2s;
-}
+.product-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: border-color .2s, transform .2s; }
 .product-card:hover { border-color: rgba(0,200,83,0.4); transform: translateY(-2px); }
 .product-card.featured { border-color: var(--green); }
 .product-tag { font-size: 11px; background: var(--green); color: var(--navy); padding: 3px 10px; border-radius: 20px; font-weight: 600; display: inline-block; margin-bottom: 12px; }
@@ -269,42 +174,58 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .product-card p { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
 .price { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: var(--green); margin-bottom: 16px; }
 .price span { font-size: 14px; color: var(--muted); font-family: 'DM Sans'; font-weight: 400; }
-.buy-btn {
-  width: 100%; background: var(--green); color: var(--navy); border: none; border-radius: 10px;
-  padding: 12px; font-weight: 600; font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif;
-  transition: background .2s;
-}
+.buy-btn { width: 100%; background: var(--green); color: var(--navy); border: none; border-radius: 10px; padding: 12px; font-weight: 600; font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .2s; }
 .buy-btn:hover { background: #00e05a; }
 .buy-btn.outline { background: none; border: 1px solid var(--border); color: var(--white); }
 .buy-btn.outline:hover { border-color: var(--green); color: var(--green); background: none; }
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* LEGAL PAGES */
+#page-privacy, #page-terms { padding-top: 80px; min-height: 100vh; }
+.legal-wrap { max-width: 720px; margin: 0 auto; padding: 40px 20px; }
+.legal-wrap h2 { font-size: 32px; font-weight: 700; margin-bottom: 4px; }
+.legal-date { font-size: 13px; color: var(--muted); margin-bottom: 2rem; }
+.legal-section { margin-bottom: 2rem; }
+.legal-section h3 { font-size: 16px; font-weight: 600; color: var(--green); margin-bottom: 10px; }
+.legal-section p, .legal-section li { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 8px; }
+.legal-section ul { padding-left: 20px; }
+.legal-back { background: none; border: 1px solid var(--border); color: var(--muted); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-bottom: 2rem; transition: all .2s; }
+.legal-back:hover { border-color: var(--green); color: var(--green); }
 
-/* ── MOBILE ── */
-@media (max-width: 600px) {
-  nav .nav-links button { padding: 5px 10px; font-size: 12px; }
-  .form-row { grid-template-columns: 1fr; }
-}
+/* MODALS */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 20px; padding: 28px; max-width: 380px; width: 90%; animation: fadeUp .3s ease; }
+.modal h3 { font-size: 18px; margin-bottom: 8px; }
+.modal p { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; }
+.chat-bubble { background: var(--card-bg); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; font-size: 14px; }
+.chat-bubble.from-system { border-left: 3px solid var(--green); }
+.chat-bubble .meta { font-size: 11px; color: var(--muted); margin-top: 6px; }
+.modal-close { width: 100%; background: none; border: 1px solid var(--border); color: var(--muted); padding: 12px; border-radius: 10px; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 12px; }
+.report-textarea { width: 100%; background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px; resize: none; margin-bottom: 12px; }
+.report-submit { width: 100%; background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+
+/* FOOTER */
+.site-footer { border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 12px; color: var(--muted); }
+.site-footer a { color: var(--green); text-decoration: none; cursor: pointer; }
+.site-footer a:hover { text-decoration: underline; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 600px) { nav .nav-links button { padding: 5px 10px; font-size: 11px; } .form-row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="logo" onclick="goto('home')">Call<span>My</span>Oga</div>
   <div class="nav-links">
-    <button onclick="goto('scan')" id="nav-scan">🔍 Scan Demo</button>
+    <button onclick="goto('scan')" id="nav-scan">🔍 Demo</button>
     <button onclick="goto('register')" id="nav-register">Register</button>
     <button onclick="goto('shop')" id="nav-shop">Shop</button>
     <button onclick="goto('dashboard')" id="nav-dashboard">Dashboard</button>
   </div>
 </nav>
 
-<!-- ══ HOME ══ -->
+<!-- HOME -->
 <div id="page-home" class="page active">
   <div class="hero">
     <div class="hero-badge">🇳🇬 Made for Nigeria</div>
@@ -315,37 +236,15 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       <button class="btn-outline" onclick="goto('shop')">Buy a Tag — ₦5,000</button>
     </div>
   </div>
-
   <div class="section">
     <div class="section-label">The Process</div>
     <h2>Simple. Private. Nigerian.</h2>
     <div class="steps">
-      <div class="step-card">
-        <div class="step-num">01</div>
-        <div class="step-icon">🛒</div>
-        <h3>Buy your tag</h3>
-        <p>Order a waterproof QR sticker. Each one has a unique code linked to your car.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">02</div>
-        <div class="step-icon">📱</div>
-        <h3>Register your number</h3>
-        <p>Link your phone number to your sticker. We mask it — nobody ever sees it.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">03</div>
-        <div class="step-icon">📌</div>
-        <h3>Stick it on your car</h3>
-        <p>Place on windscreen or bumper. Weatherproof for Nigerian sun and rain.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">04</div>
-        <div class="step-icon">💬</div>
-        <h3>Get contacted privately</h3>
-        <p>Stranger scans, taps WhatsApp or Call — message arrives on your phone. Their number stays private too.</p>
-      </div>
+      <div class="step-card"><div class="step-num">01</div><div class="step-icon">🛒</div><h3>Buy your tag</h3><p>Order a waterproof QR sticker. Each one has a unique code linked to your car.</p></div>
+      <div class="step-card"><div class="step-num">02</div><div class="step-icon">📱</div><h3>Register your number</h3><p>Link your phone number to your sticker. We mask it — nobody ever sees it.</p></div>
+      <div class="step-card"><div class="step-num">03</div><div class="step-icon">📌</div><h3>Stick it on your car</h3><p>Place on windscreen or bumper. Weatherproof for Nigerian sun and rain.</p></div>
+      <div class="step-card"><div class="step-num">04</div><div class="step-icon">💬</div><h3>Get contacted privately</h3><p>Stranger scans, taps WhatsApp or Call — you get notified. Their number stays private too.</p></div>
     </div>
-
     <div class="stats">
       <div class="stat"><div class="stat-num">400M</div><div class="stat-label">Potential customers</div></div>
       <div class="stat"><div class="stat-num">0</div><div class="stat-label">Phone numbers exposed</div></div>
@@ -353,117 +252,75 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       <div class="stat"><div class="stat-num">₦0</div><div class="stat-label">Monthly fee (basic)</div></div>
     </div>
   </div>
+  <div class="site-footer">
+    &copy; 2025 CallMyOga · <a onclick="goto('privacy')">Privacy Policy</a> · <a onclick="goto('terms')">Terms of Service</a> · <a onclick="goto('shop')">Shop</a> · Made in Nigeria 🇳🇬
+  </div>
 </div>
 
-<!-- ══ QR LANDING (what stranger sees) ══ -->
+<!-- SCAN PAGE -->
 <div id="page-scan" class="page">
   <div class="scan-wrap">
     <div class="scan-top">
       <div class="car-avatar">🚗</div>
       <div class="plate-badge" id="scan-plate">LAG 234 AB</div>
       <div style="font-size:14px; color:var(--muted); margin-bottom:8px" id="scan-car-info">Lagos · Toyota Camry · Silver</div>
-      <div class="masked-num">
-        🔒 Owner's number: <strong id="scan-masked">080** *** **34</strong>
-      </div>
+      <div class="masked-num">🔒 Owner's number: <strong id="scan-masked">080** *** **34</strong></div>
     </div>
-
-    <div class="alert-box">
-      ⚠️ <span>This vehicle may be blocking you or in an emergency situation. Contact the owner anonymously — your number is also protected.</span>
-    </div>
-
+    <div class="alert-box">⚠️ <span>This vehicle may be blocking you or in an emergency situation. Contact the owner anonymously — your number is also protected.</span></div>
     <button class="wa-btn" onclick="openWhatsAppModal()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.558 4.136 1.535 5.887L.057 23.57a.75.75 0 00.914.914l5.721-1.485A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.7-.504-5.253-1.383l-.375-.217-3.898 1.012 1.018-3.806-.235-.384A9.945 9.945 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
       WhatsApp the owner
     </button>
-
-    <button class="call-btn" onclick="simulateCall()">
-      📞 Call the owner (masked)
-    </button>
-
-    <div class="contact-card">
-      <div style="font-size:13px; font-weight:600; margin-bottom:10px;">💬 Send a message instead</div>
-      <textarea class="msg-area" id="scan-message" rows="3" placeholder="e.g. Your car is blocking my gate, please move it urgently."></textarea>
-      <button class="msg-send" onclick="sendMessage()">Send via WhatsApp →</button>
-    </div>
-
-    <div class="privacy-note">
-      🔒 Your number is <span>never shared</span>. Powered by <span>CallMyOga</span> · Made in Nigeria
-    </div>
+    <button class="call-btn" onclick="simulateCall()">📞 Call the owner (masked)</button>
+    <button class="report-btn" onclick="openReportModal()">🚨 Report misuse of this tag</button>
+    <div class="privacy-note">🔒 Your number is <span>never shared</span>. By using this service you agree to our <span onclick="goto('terms')" style="cursor:pointer">Terms</span>. Powered by <span>CallMyOga</span> · Made in Nigeria</div>
   </div>
 </div>
 
-<!-- ══ REGISTRATION ══ -->
+<!-- REGISTER -->
 <div id="page-register" class="page">
   <div class="reg-wrap">
     <h2>Activate Your Tag</h2>
     <p>Link your phone number to your QR sticker. Your number is encrypted and never shown publicly.</p>
-
     <div class="form-row">
-      <div class="form-group">
-        <label>TAG CODE (on sticker)</label>
-        <input type="text" id="reg-code" placeholder="e.g. CMO-A1B2C3" style="text-transform:uppercase">
-      </div>
-      <div class="form-group">
-        <label>YOUR PHONE NUMBER</label>
-        <input type="tel" id="reg-phone" placeholder="+234 800 000 0000">
-      </div>
+      <div class="form-group"><label>TAG CODE (on sticker)</label><input type="text" id="reg-code" placeholder="e.g. CMO-A1B2C3" style="text-transform:uppercase"></div>
+      <div class="form-group"><label>YOUR PHONE NUMBER</label><input type="tel" id="reg-phone" placeholder="+234 800 000 0000"></div>
     </div>
-
     <div class="form-row">
-      <div class="form-group">
-        <label>PLATE NUMBER</label>
-        <input type="text" id="reg-plate" placeholder="e.g. LAG 234 AB" style="text-transform:uppercase">
-      </div>
-      <div class="form-group">
-        <label>STATE</label>
+      <div class="form-group"><label>PLATE NUMBER</label><input type="text" id="reg-plate" placeholder="e.g. LAG 234 AB" style="text-transform:uppercase"></div>
+      <div class="form-group"><label>STATE</label>
         <select id="reg-state">
           <option value="">Select state</option>
-          <option>Lagos</option><option>Abuja</option><option>Rivers</option>
-          <option>Kano</option><option>Oyo</option><option>Anambra</option>
-          <option>Delta</option><option>Enugu</option><option>Kaduna</option>
-          <option>Other</option>
+          <option>Lagos</option><option>Abuja</option><option>Rivers</option><option>Kano</option><option>Oyo</option><option>Anambra</option><option>Delta</option><option>Enugu</option><option>Kaduna</option><option>Other</option>
         </select>
       </div>
     </div>
+    <div class="form-group"><label>CAR DESCRIPTION (optional)</label><input type="text" id="reg-car" placeholder="e.g. Toyota Camry 2019 · Silver"></div>
+    <div class="form-group"><label>WHATSAPP NUMBER (if different)</label><input type="tel" id="reg-wa" placeholder="+234 800 000 0000 (leave blank if same)"></div>
 
-    <div class="form-group">
-      <label>CAR DESCRIPTION (optional)</label>
-      <input type="text" id="reg-car" placeholder="e.g. Toyota Camry 2019 · Silver">
+    <div class="consent-box">
+      <label><input type="checkbox" id="consent-ndpr"> I consent to CallMyOga collecting and storing my phone number and vehicle details for the purpose of anonymous contact relay, in accordance with the <a onclick="goto('privacy')">Privacy Policy</a> (NDPR compliant).</label>
     </div>
-
-    <div class="form-group">
-      <label>WHATSAPP NUMBER (if different)</label>
-      <input type="tel" id="reg-wa" placeholder="+234 800 000 0000 (leave blank if same)">
+    <div class="consent-box">
+      <label><input type="checkbox" id="consent-terms"> I agree to the <a onclick="goto('terms')">Terms of Service</a>. I understand CallMyOga is a communication aid — not a guarantee — and I will not misuse this platform to harass others.</label>
     </div>
 
     <div class="qr-code-box">
       <div class="qr-placeholder">
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <rect x="10" y="10" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/>
-          <rect x="16" y="16" width="18" height="18" fill="#000"/>
-          <rect x="60" y="10" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/>
-          <rect x="66" y="16" width="18" height="18" fill="#000"/>
-          <rect x="10" y="60" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/>
-          <rect x="16" y="66" width="18" height="18" fill="#000"/>
-          <rect x="60" y="60" width="8" height="8" fill="#000"/>
-          <rect x="72" y="60" width="8" height="8" fill="#000"/>
-          <rect x="84" y="60" width="8" height="8" fill="#000"/>
-          <rect x="60" y="72" width="8" height="8" fill="#000"/>
-          <rect x="72" y="84" width="8" height="8" fill="#000"/>
-          <rect x="84" y="72" width="8" height="8" fill="#000"/>
-          <rect x="44" y="10" width="8" height="8" fill="#000"/>
-          <rect x="44" y="22" width="8" height="8" fill="#000"/>
-          <rect x="44" y="44" width="8" height="8" fill="#000"/>
-          <rect x="10" y="44" width="8" height="8" fill="#000"/>
-          <rect x="22" y="44" width="8" height="8" fill="#000"/>
+          <rect x="10" y="10" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="16" y="16" width="18" height="18" fill="#000"/>
+          <rect x="60" y="10" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="66" y="16" width="18" height="18" fill="#000"/>
+          <rect x="10" y="60" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="16" y="66" width="18" height="18" fill="#000"/>
+          <rect x="60" y="60" width="8" height="8" fill="#000"/><rect x="72" y="60" width="8" height="8" fill="#000"/><rect x="84" y="60" width="8" height="8" fill="#000"/>
+          <rect x="60" y="72" width="8" height="8" fill="#000"/><rect x="72" y="84" width="8" height="8" fill="#000"/><rect x="84" y="72" width="8" height="8" fill="#000"/>
+          <rect x="44" y="10" width="8" height="8" fill="#000"/><rect x="44" y="22" width="8" height="8" fill="#000"/><rect x="44" y="44" width="8" height="8" fill="#000"/>
+          <rect x="10" y="44" width="8" height="8" fill="#000"/><rect x="22" y="44" width="8" height="8" fill="#000"/>
         </svg>
       </div>
       <div style="font-size:13px; color:var(--muted)">Your unique QR code — printed on your sticker</div>
       <div style="font-size:12px; color:var(--green); margin-top:4px" id="reg-code-preview">Enter tag code above to preview</div>
     </div>
-
     <button class="submit-reg" onclick="registerTag()">Activate Tag →</button>
-
     <div class="success-box" id="reg-success">
       ✅ <strong>Tag activated!</strong><br>
       <span style="font-size:14px; color:var(--muted)">Your QR sticker is now live. Anyone who scans it can reach you privately.</span><br>
@@ -472,91 +329,41 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   </div>
 </div>
 
-<!-- ══ ADMIN DASHBOARD ══ -->
+<!-- DASHBOARD -->
 <div id="page-dashboard" class="page">
   <div class="dash-wrap">
     <div class="dash-header">
-      <div>
-        <h2>Admin Dashboard</h2>
-        <div style="font-size:13px; color:var(--muted)">CallMyOga · Nigeria Operations</div>
-      </div>
+      <div><h2>Admin Dashboard</h2><div style="font-size:13px; color:var(--muted)">CallMyOga · Nigeria Operations</div></div>
       <button class="add-btn" onclick="goto('register')">+ New Tag</button>
     </div>
-
     <div class="dash-stats">
       <div class="ds"><div class="ds-num" id="ds-total">0</div><div class="ds-label">Total Tags Sold</div></div>
       <div class="ds"><div class="ds-num" id="ds-active">0</div><div class="ds-label">Active Tags</div></div>
       <div class="ds"><div class="ds-num" id="ds-contacts">0</div><div class="ds-label">Contacts Today</div></div>
       <div class="ds"><div class="ds-num" id="ds-revenue">₦0</div><div class="ds-label">Revenue MTD</div></div>
     </div>
-
     <div class="table-wrap" style="margin-bottom:1.5rem">
-      <div class="table-head">
-        <h3>Registered Tags</h3>
-        <input class="search-input" type="text" placeholder="Search plate or tag..." oninput="filterTable(this.value)">
-      </div>
-      <div style="overflow-x:auto">
-        <table id="tags-table">
-          <thead>
-            <tr>
-              <th>Tag Code</th>
-              <th>Plate</th>
-              <th>State</th>
-              <th>Car</th>
-              <th>Status</th>
-              <th>Contacts</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="tags-tbody"></tbody>
-        </table>
-      </div>
+      <div class="table-head"><h3>Registered Tags</h3><input class="search-input" type="text" placeholder="Search plate or tag..." oninput="filterTable(this.value)"></div>
+      <div style="overflow-x:auto"><table id="tags-table"><thead><tr><th>Tag Code</th><th>Plate</th><th>State</th><th>Car</th><th>Status</th><th>Contacts</th><th>Action</th></tr></thead><tbody id="tags-tbody"></tbody></table></div>
     </div>
-
     <div class="table-wrap">
-      <div class="table-head"><h3>Recent Contact Activity</h3></div>
-      <div id="notif-list" class="notif-log"></div>
+      <div class="table-head"><h3>Recent Activity</h3></div>
+      <div id="notif-list"></div>
     </div>
   </div>
 </div>
 
-<!-- ══ SHOP ══ -->
+<!-- SHOP -->
 <div id="page-shop" class="page">
   <div class="shop-wrap">
     <h2>Shop</h2>
     <p>One sticker. Total privacy. Nigerian pricing.</p>
     <div class="products">
-      <div class="product-card">
-        <div class="product-img">🏷️</div>
-        <h3>Single Tag</h3>
-        <p>1 waterproof QR sticker. Perfect for your personal car. Lasts 3+ years outdoors.</p>
-        <div class="price">₦5,000 <span>/ tag</span></div>
-        <button class="buy-btn" onclick="addToCart('Single Tag', 5000)">Buy Now</button>
-      </div>
-      <div class="product-card featured">
-        <div class="product-tag">⭐ BEST VALUE</div>
-        <div class="product-img">📦</div>
-        <h3>Family Pack (3 Tags)</h3>
-        <p>3 stickers for the family fleet. One dashboard for all. Save ₦1,500 vs buying separately.</p>
-        <div class="price">₦6,000 <span>/ 3 tags</span></div>
-        <button class="buy-btn" onclick="addToCart('Family Pack', 6000)">Buy Now</button>
-      </div>
-      <div class="product-card">
-        <div class="product-img">🏢</div>
-        <h3>Business (10 Tags)</h3>
-        <p>For fleets, car dealers, estates and hotels. Bulk pricing with admin dashboard.</p>
-        <div class="price">₦17,500 <span>/ 10 tags</span></div>
-        <button class="buy-btn" onclick="addToCart('Business Pack', 17500)">Buy Now</button>
-      </div>
-      <div class="product-card">
-        <div class="product-img">🤝</div>
-        <h3>Reseller Pack (50 Tags)</h3>
-        <p>Sell in your area. 30% margin. Full reseller support and branding materials.</p>
-        <div class="price">₦62,500 <span>/ 50 tags</span></div>
-        <button class="buy-btn outline" onclick="alert('Contact us: callmyoga@gmail.com')">Contact Us</button>
-      </div>
+      <div class="product-card"><div class="product-img">🏷️</div><h3>Single Tag</h3><p>1 waterproof QR sticker. Perfect for your personal car. Lasts 3+ years outdoors.</p><div class="price">₦5,000 <span>/ tag</span></div><button class="buy-btn" onclick="addToCart('Single Tag', 5000)">Buy Now</button></div>
+      <div class="product-card featured"><div class="product-tag">⭐ BEST VALUE</div><div class="product-img">📦</div><h3>Family Pack (3 Tags)</h3><p>3 stickers for the family fleet. One dashboard for all. Save ₦3,000 vs buying separately.</p><div class="price">₦12,000 <span>/ 3 tags</span></div><button class="buy-btn" onclick="addToCart('Family Pack', 12000)">Buy Now</button></div>
+      <div class="product-card"><div class="product-img">🏢</div><h3>Business (10 Tags)</h3><p>For fleets, car dealers, estates and hotels. Bulk pricing with admin dashboard.</p><div class="price">₦35,000 <span>/ 10 tags</span></div><button class="buy-btn" onclick="addToCart('Business Pack', 35000)">Buy Now</button></div>
+      <div class="product-card"><div class="product-img">🤝</div><h3>Reseller Pack (50 Tags)</h3><p>Sell in your area. 30% margin. Full reseller support and branding materials.</p><div class="price">₦125,000 <span>/ 50 tags</span></div><button class="buy-btn outline" onclick="alert('Contact us: hello@callmyoga.com')">Contact Us</button></div>
     </div>
-
     <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:24px; margin-top:2rem; text-align:center">
       <div style="font-size:28px; margin-bottom:8px">📱</div>
       <h3 style="margin-bottom:8px">WhatsApp to Order</h3>
@@ -566,18 +373,55 @@ tr:hover td { background: rgba(255,255,255,0.02); }
         Order on WhatsApp
       </button>
     </div>
+    <div class="site-footer" style="margin-top:3rem">
+      <a onclick="goto('privacy')">Privacy Policy</a> · <a onclick="goto('terms')">Terms of Service</a> · &copy; 2025 CallMyOga
+    </div>
   </div>
 </div>
 
-<!-- ══ WHATSAPP MODAL ══ -->
+<!-- PRIVACY POLICY -->
+<div id="page-privacy" class="page">
+  <div class="legal-wrap">
+    <button class="legal-back" onclick="history.back ? goto('home') : goto('home')">← Back</button>
+    <h2>Privacy Policy</h2>
+    <div class="legal-date">Last updated: January 2025 · NDPR Compliant</div>
+    <div class="legal-section"><h3>1. Who we are</h3><p>CallMyOga ("we", "us", "our") is a Nigerian technology service operated under Nigerian law. We can be reached at hello@callmyoga.com.</p></div>
+    <div class="legal-section"><h3>2. What data we collect</h3><ul><li>Phone number (owner only — used solely for anonymous relay)</li><li>Vehicle plate number and state of registration</li><li>Optional car description</li><li>Time and type of contact events (WhatsApp / call)</li><li>IP address of scanners (for abuse prevention only)</li></ul></div>
+    <div class="legal-section"><h3>3. How we use your data</h3><ul><li>To relay anonymous contact between scanner and car owner</li><li>To send you WhatsApp/call notifications when someone scans your tag</li><li>To investigate abuse reports</li><li>We do NOT sell your data to third parties</li><li>We do NOT share your number with scanners under any circumstance</li></ul></div>
+    <div class="legal-section"><h3>4. NDPR compliance</h3><p>We comply with Nigeria's Data Protection Regulation (NDPR) 2019. You have the right to: access your data, correct inaccurate data, delete your data, and withdraw consent at any time. To exercise these rights, email hello@callmyoga.com.</p></div>
+    <div class="legal-section"><h3>5. Data retention</h3><p>Your data is retained for as long as your tag is active. Upon deactivation request, all personal data is deleted within 30 days.</p></div>
+    <div class="legal-section"><h3>6. Security</h3><p>All phone numbers are encrypted at rest. We use industry-standard TLS encryption for all data in transit. We never display your full number publicly.</p></div>
+    <div class="legal-section"><h3>7. Contact</h3><p>For privacy concerns: hello@callmyoga.com</p></div>
+    <div class="site-footer"><a onclick="goto('terms')">Terms of Service</a> · <a onclick="goto('home')">Home</a></div>
+  </div>
+</div>
+
+<!-- TERMS OF SERVICE -->
+<div id="page-terms" class="page">
+  <div class="legal-wrap">
+    <button class="legal-back" onclick="goto('home')">← Back</button>
+    <h2>Terms of Service</h2>
+    <div class="legal-date">Last updated: January 2025 · Governed by Nigerian Law</div>
+    <div class="legal-section"><h3>1. Service description</h3><p>CallMyOga provides an anonymous communication relay service linking QR sticker codes to registered vehicle owners. It is a communication aid only — not a guarantee of contact, security, or emergency response.</p></div>
+    <div class="legal-section"><h3>2. Acceptable use</h3><p>You may only use CallMyOga for legitimate purposes including:</p><ul><li>Notifying a car owner their vehicle is blocking access</li><li>Reporting a flat tyre, hazard, or emergency relating to the vehicle</li><li>Genuine parking-related communication</li></ul></div>
+    <div class="legal-section"><h3>3. Prohibited conduct</h3><p>The following are strictly prohibited and may result in immediate deactivation and referral to law enforcement:</p><ul><li>Placing a CallMyOga sticker on a vehicle without the owner's consent</li><li>Using the platform to harass, threaten, or stalk any individual</li><li>Impersonating a vehicle owner or creating fake registrations</li><li>Using the scan page to locate or surveil individuals</li><li>Any use that violates Nigerian law including the Cybercrimes Act 2015</li></ul></div>
+    <div class="legal-section"><h3>4. Regarding point 3 — sticker misuse (important)</h3><p>A risk exists that a bad actor could stick a CallMyOga tag on someone else's car without their knowledge, then pretend to be the "owner" when contacted. This would allow them to receive calls/messages meant for the real car owner.</p><p style="margin-top:8px">To protect against this: (a) we provide a Report Misuse button on every scan page; (b) we investigate all reports within 24 hours; (c) we cooperate with Nigerian law enforcement for criminal misuse; (d) we recommend owners check their sticker regularly to confirm it is their own registered tag.</p></div>
+    <div class="legal-section"><h3>5. Limitation of liability</h3><p>CallMyOga is not liable for: failure to make contact in an emergency; misuse by third parties; losses arising from reliance on the service. Use at your own discretion.</p></div>
+    <div class="legal-section"><h3>6. Governing law</h3><p>These terms are governed by the laws of the Federal Republic of Nigeria. Disputes shall be resolved in Nigerian courts.</p></div>
+    <div class="legal-section"><h3>7. Contact</h3><p>hello@callmyoga.com</p></div>
+    <div class="site-footer"><a onclick="goto('privacy')">Privacy Policy</a> · <a onclick="goto('home')">Home</a></div>
+  </div>
+</div>
+
+<!-- WHATSAPP MODAL -->
 <div class="modal-overlay" id="wa-modal">
   <div class="modal">
     <h3>💬 WhatsApp Relay</h3>
     <p>Your message goes through CallMyOga's relay number. The owner receives it without seeing your number.</p>
     <div class="chat-bubble from-system">
       <div>🚗 <strong>CallMyOga Alert</strong></div>
-      <div style="margin-top:6px; color:var(--muted)" id="modal-msg-preview">Someone near your car [LAG 234 AB] wants to reach you.</div>
-      <div class="meta">Delivered via +234 xxx xxxx → Owner's WhatsApp</div>
+      <div style="margin-top:6px; color:var(--muted)">Someone near your vehicle wants to reach you anonymously.</div>
+      <div class="meta">Delivered via +234-relay → Owner's WhatsApp</div>
     </div>
     <div class="chat-bubble">
       <div style="font-size:13px; color:var(--muted)">Owner can reply — your number stays hidden too.</div>
@@ -588,7 +432,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   </div>
 </div>
 
-<!-- ══ CALL MODAL ══ -->
+<!-- CALL MODAL -->
 <div class="modal-overlay" id="call-modal">
   <div class="modal">
     <h3>📞 Masked Call</h3>
@@ -598,16 +442,24 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       <div style="font-family:'Syne',sans-serif; font-size:22px; font-weight:700">+234 xxx xxxx</div>
       <div style="font-size:13px; color:var(--muted); margin-top:6px">CallMyOga relay → Owner</div>
     </div>
-    <div style="background:rgba(0,200,83,0.08); border-radius:10px; padding:12px; font-size:13px; color:var(--green); text-align:center; margin-bottom:16px">
-      ✅ Both numbers are fully masked
-    </div>
+    <div style="background:rgba(0,200,83,0.08); border-radius:10px; padding:12px; font-size:13px; color:var(--green); text-align:center; margin-bottom:16px">✅ Both numbers are fully masked</div>
     <button class="call-btn" style="border-radius:12px; font-size:15px" onclick="closeCallModal()">📞 Dial Now</button>
     <button class="modal-close" onclick="closeCallModal()">Cancel</button>
   </div>
 </div>
 
+<!-- REPORT MODAL -->
+<div class="modal-overlay" id="report-modal">
+  <div class="modal">
+    <h3>🚨 Report Misuse</h3>
+    <p>Report if this tag was placed on a car without the owner's consent, or is being used to harass someone.</p>
+    <textarea class="report-textarea" id="report-text" rows="4" placeholder="Describe the misuse e.g. 'This sticker was placed on my car without my permission'"></textarea>
+    <button class="report-submit" onclick="submitReport()">Submit Report</button>
+    <button class="modal-close" onclick="closeReportModal()">Cancel</button>
+  </div>
+</div>
+
 <script>
-// ── ROUTER ──
 function goto(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
@@ -618,13 +470,11 @@ function goto(page) {
   if (page === 'dashboard') loadDashboard();
 }
 
-// ── LOCAL STORAGE DB ──
 function getDB() { return JSON.parse(localStorage.getItem('cmo_tags') || '[]'); }
 function saveDB(d) { localStorage.setItem('cmo_tags', JSON.stringify(d)); }
 function getNotifs() { return JSON.parse(localStorage.getItem('cmo_notifs') || '[]'); }
 function saveNotifs(d) { localStorage.setItem('cmo_notifs', JSON.stringify(d)); }
 
-// Seed sample data
 if (!localStorage.getItem('cmo_seeded')) {
   saveDB([
     { code:'CMO-A1B2C3', plate:'LAG 234 AB', state:'Lagos', car:'Toyota Camry · Silver', phone:'08012345678', contacts:12, status:'active', registered:'2024-11-01' },
@@ -634,16 +484,15 @@ if (!localStorage.getItem('cmo_seeded')) {
     { code:'CMO-M4N5O6', plate:'KAN 890 PQ', state:'Kano', car:'Peugeot 504 · Blue', phone:'08155556666', contacts:1, status:'inactive', registered:'2024-09-30' },
   ]);
   saveNotifs([
-    { type:'wa', plate:'LAG 234 AB', msg:'Your car is blocking my gate', time:'2 mins ago' },
+    { type:'wa', plate:'LAG 234 AB', msg:'WhatsApp contact initiated', time:'2 mins ago' },
     { type:'call', plate:'ABJ 100 GH', msg:'Masked call connected — 1m 24s', time:'18 mins ago' },
-    { type:'wa', plate:'OYO 567 MN', msg:'Please you parked on yellow line', time:'1 hr ago' },
+    { type:'wa', plate:'OYO 567 MN', msg:'WhatsApp contact initiated', time:'1 hr ago' },
+    { type:'report', plate:'KAN 890 PQ', msg:'Misuse reported — under review', time:'2 hrs ago' },
     { type:'call', plate:'LAG 234 AB', msg:'Masked call connected — 45s', time:'3 hrs ago' },
-    { type:'wa', plate:'RIV 445 JK', msg:'Hello owner your tyre is flat!', time:'5 hrs ago' },
   ]);
   localStorage.setItem('cmo_seeded', '1');
 }
 
-// ── REGISTRATION ──
 document.getElementById('reg-code').addEventListener('input', function() {
   const v = this.value.toUpperCase();
   document.getElementById('reg-code-preview').textContent = v ? 'Tag: ' + v : 'Enter tag code above to preview';
@@ -655,7 +504,10 @@ function registerTag() {
   const plate = document.getElementById('reg-plate').value.trim().toUpperCase();
   const state = document.getElementById('reg-state').value;
   const car = document.getElementById('reg-car').value.trim();
+  const c1 = document.getElementById('consent-ndpr').checked;
+  const c2 = document.getElementById('consent-terms').checked;
   if (!code || !phone || !plate || !state) { alert('Please fill all required fields'); return; }
+  if (!c1 || !c2) { alert('Please accept the Privacy Policy and Terms of Service to continue'); return; }
   const db = getDB();
   const existing = db.find(t => t.code === code);
   if (existing) { existing.plate = plate; existing.phone = phone; existing.state = state; existing.car = car; existing.status = 'active'; }
@@ -668,49 +520,37 @@ function registerTag() {
   document.getElementById('reg-success').scrollIntoView({ behavior: 'smooth' });
 }
 
-// ── DASHBOARD ──
 function loadDashboard() {
-  const db = getDB();
-  const notifs = getNotifs();
+  const db = getDB(); const notifs = getNotifs();
   document.getElementById('ds-total').textContent = db.length;
   document.getElementById('ds-active').textContent = db.filter(t => t.status === 'active').length;
   document.getElementById('ds-contacts').textContent = notifs.filter(n => n.time.includes('mins') || n.time.includes('min ')).length;
   document.getElementById('ds-revenue').textContent = '₦' + (db.length * 5000).toLocaleString();
-  renderTable(db);
-  renderNotifs(notifs);
+  renderTable(db); renderNotifs(notifs);
 }
 
 function renderTable(db) {
-  const tbody = document.getElementById('tags-tbody');
-  tbody.innerHTML = db.map(t => `
+  document.getElementById('tags-tbody').innerHTML = db.map(t => `
     <tr>
       <td style="font-family:'Syne',sans-serif; font-size:13px; color:var(--green)">${t.code}</td>
-      <td><strong>${t.plate}</strong></td>
-      <td>${t.state}</td>
+      <td><strong>${t.plate}</strong></td><td>${t.state}</td>
       <td style="color:var(--muted); font-size:13px">${t.car}</td>
       <td><span class="status-badge status-${t.status}">${t.status}</span></td>
       <td style="font-family:'Syne',sans-serif">${t.contacts}</td>
       <td><button class="action-btn" onclick="previewScan('${t.plate}','${t.state}','${t.car}','${t.phone}')">Preview</button></td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 }
 
 function renderNotifs(notifs) {
   document.getElementById('notif-list').innerHTML = notifs.map(n => `
     <div class="notif-item">
       <div class="notif-dot ${n.type}"></div>
-      <div>
-        <div class="notif-text"><strong>${n.plate}</strong> — ${n.msg}</div>
-        <div class="notif-time">${n.type === 'wa' ? '💬 WhatsApp' : '📞 Call'} · ${n.time}</div>
-      </div>
-    </div>
-  `).join('');
+      <div><div class="notif-text"><strong>${n.plate}</strong> — ${n.msg}</div>
+      <div class="notif-time">${n.type==='wa'?'💬 WhatsApp':n.type==='call'?'📞 Call':'🚨 Report'} · ${n.time}</div></div>
+    </div>`).join('');
 }
 
-function filterTable(q) {
-  const db = getDB().filter(t => t.plate.toLowerCase().includes(q.toLowerCase()) || t.code.toLowerCase().includes(q.toLowerCase()));
-  renderTable(db);
-}
+function filterTable(q) { renderTable(getDB().filter(t => t.plate.toLowerCase().includes(q.toLowerCase()) || t.code.toLowerCase().includes(q.toLowerCase()))); }
 
 function previewScan(plate, state, car, phone) {
   document.getElementById('scan-plate').textContent = plate;
@@ -719,45 +559,28 @@ function previewScan(plate, state, car, phone) {
   goto('scan');
 }
 
-// ── SCAN ACTIONS ──
-function openWhatsAppModal() {
-  const msg = document.getElementById('scan-message').value || 'Someone near your car wants to reach you.';
-  document.getElementById('modal-msg-preview').textContent = msg;
-  document.getElementById('wa-modal').classList.add('open');
-}
-
-function confirmWhatsApp() {
-  closeModal();
-  logContact('wa');
-  alert('✅ In production: opens WhatsApp to +234-relay-number with your message. Owner gets it instantly.');
-}
-
+function openWhatsAppModal() { document.getElementById('wa-modal').classList.add('open'); }
+function confirmWhatsApp() { closeModal(); logContact('wa'); alert('✅ In production: opens WhatsApp relay. Owner gets notified instantly.'); }
 function closeModal() { document.getElementById('wa-modal').classList.remove('open'); }
-
 function simulateCall() { document.getElementById('call-modal').classList.add('open'); }
-function closeCallModal() {
-  document.getElementById('call-modal').classList.remove('open');
-  logContact('call');
+function closeCallModal() { document.getElementById('call-modal').classList.remove('open'); logContact('call'); }
+function openReportModal() { document.getElementById('report-modal').classList.add('open'); }
+function closeReportModal() { document.getElementById('report-modal').classList.remove('open'); }
+function submitReport() {
+  const txt = document.getElementById('report-text').value.trim();
+  if (!txt) { alert('Please describe the misuse'); return; }
+  const notifs = getNotifs();
+  notifs.unshift({ type:'report', plate: document.getElementById('scan-plate').textContent, msg: txt.slice(0,60), time: 'Just now' });
+  saveNotifs(notifs.slice(0,20));
+  closeReportModal();
+  alert('✅ Report submitted. Our team will investigate within 24 hours.');
 }
-
-function sendMessage() {
-  const msg = document.getElementById('scan-message').value;
-  if (!msg.trim()) { alert('Please type a message first'); return; }
-  openWhatsAppModal();
-}
-
 function logContact(type) {
   const notifs = getNotifs();
-  const plate = document.getElementById('scan-plate').textContent;
-  notifs.unshift({ type, plate, msg: type === 'wa' ? document.getElementById('scan-message').value || 'Contacted via WhatsApp' : 'Masked call initiated', time: 'Just now' });
-  saveNotifs(notifs.slice(0, 20));
+  notifs.unshift({ type, plate: document.getElementById('scan-plate').textContent, msg: type==='wa'?'WhatsApp contact initiated':'Masked call initiated', time:'Just now' });
+  saveNotifs(notifs.slice(0,20));
 }
-
-function addToCart(name, price) {
-  alert(`✅ "${name}" added! In production: goes to Paystack/Flutterwave checkout for ₦${price.toLocaleString()}`);
-}
-
-// Init
+function addToCart(name, price) { alert(`✅ "${name}" added! In production: Paystack checkout for ₦${price.toLocaleString()}`); }
 loadDashboard();
 </script>
 </body>
