@@ -308,11 +308,11 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 <div id="page-home" class="page active">
   <div class="hero">
     <div class="hero-badge">🇳🇬 Made for Nigeria</div>
-    <h1>Someone scanned<br>your car? <em>We got you.</em></h1>
+    <h1>Someone blocked<br>your car? <em>We got you covered.</em></h1>
     <p>Stick our QR tag on your car. Anyone who needs to reach you gets through instantly — without ever seeing your real phone number.</p>
     <div class="hero-btns">
       <button class="btn-primary" onclick="goto('scan')">See How It Works</button>
-      <button class="btn-outline" onclick="goto('shop')">Buy a Tag — ₦2,500</button>
+      <button class="btn-outline" onclick="goto('shop')">Buy a Tag — ₦5,000</button>
     </div>
   </div>
 
@@ -530,8 +530,8 @@ tr:hover td { background: rgba(255,255,255,0.02); }
         <div class="product-img">🏷️</div>
         <h3>Single Tag</h3>
         <p>1 waterproof QR sticker. Perfect for your personal car. Lasts 3+ years outdoors.</p>
-        <div class="price">₦2,500 <span>/ tag</span></div>
-        <button class="buy-btn" onclick="addToCart('Single Tag', 2500)">Buy Now</button>
+        <div class="price">₦5,000 <span>/ tag</span></div>
+        <button class="buy-btn" onclick="addToCart('Single Tag', 5000)">Buy Now</button>
       </div>
       <div class="product-card featured">
         <div class="product-tag">⭐ BEST VALUE</div>
@@ -675,7 +675,7 @@ function loadDashboard() {
   document.getElementById('ds-total').textContent = db.length;
   document.getElementById('ds-active').textContent = db.filter(t => t.status === 'active').length;
   document.getElementById('ds-contacts').textContent = notifs.filter(n => n.time.includes('mins') || n.time.includes('min ')).length;
-  document.getElementById('ds-revenue').textContent = '₦' + (db.length * 2500).toLocaleString();
+  document.getElementById('ds-revenue').textContent = '₦' + (db.length * 5000).toLocaleString();
   renderTable(db);
   renderNotifs(notifs);
 }
