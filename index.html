@@ -5,583 +5,1171 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CallMyOga — Someone blocked your car? We got you covered.</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Paystack -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
 <style>
-:root {
-  --green: #00C853;
-  --green-dark: #00923D;
-  --navy: #0A1628;
-  --navy-mid: #112240;
-  --navy-light: #1a3a6b;
-  --gold: #FFD600;
-  --wa: #25D366;
-  --red: #FF3B30;
-  --white: #F8FAF9;
-  --muted: #8A9BB0;
-  --card-bg: #0F1E35;
-  --border: rgba(255,255,255,0.08);
-  --radius: 16px;
+:root{
+  --green:#00C853;--green-dark:#00923D;--navy:#0A1628;--navy-mid:#112240;
+  --navy-light:#1a3a6b;--gold:#FFD600;--wa:#25D366;--red:#FF3B30;
+  --white:#F8FAF9;--muted:#8A9BB0;--card-bg:#0F1E35;--border:rgba(255,255,255,0.08);--radius:16px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-h1,h2,h3,h4 { font-family: 'Syne', sans-serif; }
-.page { display: none; }
-.page.active { display: block; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;}
+h1,h2,h3,h4{font-family:'Syne',sans-serif;}
+.page{display:none;}.page.active{display:block;}
+a{color:var(--green);text-decoration:none;cursor:pointer;}
 
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(10,22,40,0.92); backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border); padding: 14px 24px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; cursor: pointer; }
-.logo span { color: var(--green); }
-nav .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
-nav .nav-links button {
-  background: none; border: 1px solid var(--border); color: var(--muted);
-  padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 13px;
-  font-family: 'DM Sans', sans-serif; transition: all .2s;
-}
-nav .nav-links button:hover, nav .nav-links button.active { border-color: var(--green); color: var(--green); }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,22,40,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;cursor:pointer;}
+.logo span{color:var(--green);}
+.nav-links{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.nav-links button{background:none;border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:20px;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.nav-links button:hover,.nav-links button.active{border-color:var(--green);color:var(--green);}
+.nav-cta{background:var(--green)!important;color:var(--navy)!important;border-color:var(--green)!important;font-weight:600!important;}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;}
 
-#page-home { padding-top: 80px; }
-.hero {
-  min-height: 100vh; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 80px 24px 60px; text-align: center; position: relative; overflow: hidden;
-}
-.hero::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,200,83,0.12) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  border: 1px solid rgba(0,200,83,0.3); border-radius: 20px;
-  padding: 6px 16px; font-size: 12px; color: var(--green);
-  margin-bottom: 2rem; letter-spacing: 1px; text-transform: uppercase;
-  animation: fadeUp .6s ease both;
-}
-.hero h1 { font-size: clamp(42px, 8vw, 80px); font-weight: 800; line-height: 1.05; margin-bottom: 1.5rem; animation: fadeUp .6s .1s ease both; }
-.hero h1 em { color: var(--green); font-style: normal; }
-.hero p { font-size: 18px; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 2.5rem; animation: fadeUp .6s .2s ease both; }
-.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; animation: fadeUp .6s .3s ease both; }
-.btn-primary { background: var(--green); color: var(--navy); font-weight: 600; padding: 14px 28px; border-radius: 12px; border: none; cursor: pointer; font-size: 15px; font-family: 'DM Sans', sans-serif; transition: all .2s; }
-.btn-primary:hover { background: #00e05a; transform: translateY(-1px); }
-.btn-outline { background: none; color: var(--white); font-weight: 500; padding: 14px 28px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; font-size: 15px; font-family: 'DM Sans', sans-serif; transition: all .2s; }
-.btn-outline:hover { border-color: var(--green); color: var(--green); }
+/* COMMON */
+.btn-primary{background:var(--green);color:var(--navy);font-weight:600;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;font-size:15px;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.btn-primary:hover{background:#00e05a;transform:translateY(-1px);}
+.btn-outline{background:none;color:var(--white);font-weight:500;padding:14px 28px;border-radius:12px;border:1px solid var(--border);cursor:pointer;font-size:15px;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.btn-outline:hover{border-color:var(--green);color:var(--green);}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;}
 
-.section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
-.section-label { font-size: 12px; color: var(--green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
-.section h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 700; margin-bottom: 3rem; }
-.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-.step-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; position: relative; overflow: hidden; transition: border-color .2s; }
-.step-card:hover { border-color: rgba(0,200,83,0.3); }
-.step-num { font-family: 'Syne', sans-serif; font-size: 56px; font-weight: 800; color: rgba(0,200,83,0.08); position: absolute; top: 10px; right: 16px; }
-.step-icon { font-size: 28px; margin-bottom: 1rem; }
-.step-card h3 { font-size: 16px; margin-bottom: 8px; }
-.step-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin: 60px 0; }
-.stat { text-align: center; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 16px; }
-.stat-num { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--green); }
-.stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+/* TRIAL BANNER */
+.trial-banner{background:linear-gradient(135deg,rgba(0,200,83,0.15),rgba(0,200,83,0.05));border:1px solid rgba(0,200,83,0.3);border-radius:12px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:1.5rem;flex-wrap:wrap;}
+.trial-banner .trial-left{display:flex;align-items:center;gap:12px;}
+.trial-days{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--green);}
+.trial-label{font-size:13px;color:var(--muted);}
+.trial-label strong{color:var(--white);}
+.trial-warning{background:rgba(255,214,0,0.1);border:1px solid rgba(255,214,0,0.3);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;}
+.trial-expired{background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.3);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;}
+
+/* HERO */
+#page-home{padding-top:80px;}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(0,200,83,0.12) 0%,transparent 70%);pointer-events:none;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(0,200,83,0.3);border-radius:20px;padding:6px 16px;font-size:12px;color:var(--green);margin-bottom:2rem;letter-spacing:1px;text-transform:uppercase;animation:fadeUp .6s ease both;}
+.hero h1{font-size:clamp(38px,7vw,76px);font-weight:800;line-height:1.05;margin-bottom:1.5rem;animation:fadeUp .6s .1s ease both;}
+.hero h1 em{color:var(--green);font-style:normal;}
+.hero p{font-size:18px;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:2.5rem;animation:fadeUp .6s .2s ease both;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:fadeUp .6s .3s ease both;}
+.free-tag{display:inline-block;background:var(--green);color:var(--navy);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-left:8px;vertical-align:middle;}
+
+/* SECTIONS */
+.section{padding:80px 24px;max-width:1100px;margin:0 auto;}
+.section-label{font-size:12px;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem;}
+.section h2{font-size:clamp(28px,4vw,44px);font-weight:700;margin-bottom:3rem;}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+.step-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden;transition:border-color .2s;}
+.step-card:hover{border-color:rgba(0,200,83,0.3);}
+.step-num{font-family:'Syne',sans-serif;font-size:56px;font-weight:800;color:rgba(0,200,83,0.08);position:absolute;top:10px;right:16px;}
+.step-icon{font-size:28px;margin-bottom:1rem;}
+.step-card h3{font-size:16px;margin-bottom:8px;}
+.step-card p{font-size:14px;color:var(--muted);line-height:1.6;}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:60px 0;}
+.stat{text-align:center;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px 16px;}
+.stat-num{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--green);}
+.stat-label{font-size:13px;color:var(--muted);margin-top:4px;}
+
+/* PRICING */
+#page-pricing{padding-top:80px;min-height:100vh;}
+.pricing-wrap{max-width:900px;margin:0 auto;padding:60px 24px;}
+.pricing-wrap h2{font-size:36px;font-weight:800;text-align:center;margin-bottom:8px;}
+.pricing-sub{text-align:center;color:var(--muted);margin-bottom:3rem;}
+.trial-highlight{background:linear-gradient(135deg,rgba(0,200,83,0.12),rgba(0,146,61,0.06));border:1px solid rgba(0,200,83,0.3);border-radius:16px;padding:28px;text-align:center;margin-bottom:2rem;}
+.trial-highlight h3{font-size:22px;font-weight:700;margin-bottom:8px;}
+.trial-highlight p{color:var(--muted);font-size:14px;margin-bottom:16px;}
+.trial-num{font-family:'Syne',sans-serif;font-size:64px;font-weight:800;color:var(--green);line-height:1;}
+.pricing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-bottom:3rem;}
+.pricing-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:32px;transition:all .2s;}
+.pricing-card.featured{border-color:var(--green);position:relative;}
+.pricing-card.featured::before{content:'BEST VALUE';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green);color:var(--navy);font-size:10px;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:1px;}
+.pricing-card h3{font-size:20px;font-weight:700;margin-bottom:8px;}
+.price-amt{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;color:var(--green);margin:16px 0 4px;}
+.price-amt span{font-size:16px;color:var(--muted);font-family:'DM Sans';font-weight:400;}
+.price-desc{font-size:13px;color:var(--muted);margin-bottom:20px;}
+.pricing-features{list-style:none;margin-bottom:24px;}
+.pricing-features li{font-size:14px;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.pricing-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
+.pricing-btn{width:100%;background:var(--green);color:var(--navy);border:none;border-radius:10px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;font-family:'Syne',sans-serif;transition:all .2s;}
+.pricing-btn:hover{background:#00e05a;}
+.pricing-btn.outline{background:none;border:1px solid var(--border);color:var(--white);font-weight:500;font-family:'DM Sans',sans-serif;}
+.pricing-btn.outline:hover{border-color:var(--green);color:var(--green);background:none;}
+.faq-item{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:12px;cursor:pointer;}
+.faq-item h4{font-size:15px;font-weight:600;display:flex;justify-content:space-between;align-items:center;}
+.faq-item p{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.6;display:none;}
+.faq-item.open p{display:block;}
+.faq-item h4::after{content:'▾';transition:transform .2s;}
+.faq-item.open h4::after{transform:rotate(180deg);}
+
+/* AUTH */
+#page-login,#page-signup{padding-top:80px;min-height:100vh;display:none;}
+#page-login.active,#page-signup.active{display:flex;align-items:center;justify-content:center;padding:80px 20px 40px;}
+.auth-wrap{width:100%;max-width:460px;}
+.auth-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:36px;}
+.auth-card h2{font-size:26px;font-weight:700;margin-bottom:6px;}
+.auth-card>p{color:var(--muted);font-size:14px;margin-bottom:1.5rem;}
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:0.5px;text-transform:uppercase;}
+.form-group input,.form-group select{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:10px;padding:13px 16px;color:var(--white);font-size:15px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
+.form-group input:focus,.form-group select:focus{border-color:var(--green);}
+.form-group select option{background:var(--navy-mid);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.auth-btn{width:100%;background:var(--green);color:var(--navy);font-weight:700;padding:15px;border-radius:12px;border:none;cursor:pointer;font-size:16px;font-family:'Syne',sans-serif;transition:all .2s;margin-top:8px;}
+.auth-btn:hover{background:#00e05a;}
+.auth-switch{text-align:center;font-size:14px;color:var(--muted);margin-top:20px;}
+.consent-box{background:var(--navy);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:14px;}
+.consent-box label{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--muted);cursor:pointer;line-height:1.5;}
+.consent-box input[type=checkbox]{width:14px;height:14px;margin-top:2px;flex-shrink:0;accent-color:var(--green);}
+.trial-notice{background:linear-gradient(135deg,rgba(0,200,83,0.1),rgba(0,200,83,0.04));border:1px solid rgba(0,200,83,0.25);border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;color:var(--muted);text-align:center;}
+.trial-notice strong{color:var(--green);font-size:16px;display:block;margin-bottom:4px;}
+
+/* PROFILE / DASHBOARD */
+#page-profile,#page-admin{padding-top:80px;min-height:100vh;}
+.profile-wrap,.admin-wrap{max-width:900px;margin:0 auto;padding:40px 20px;}
+.profile-header{display:flex;align-items:center;gap:16px;margin-bottom:2rem;flex-wrap:wrap;}
+.profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--navy);}
+.profile-header h2{font-size:24px;font-weight:700;}
+.profile-header p{font-size:14px;color:var(--muted);}
+.profile-tabs{display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:12px;}
+.p-tab{background:none;border:none;color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.p-tab.active{background:rgba(0,200,83,0.1);color:var(--green);}
+.tab-content{display:none;}.tab-content.active{display:block;}
+
+/* SUBSCRIPTION STATUS */
+.sub-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:1.5rem;}
+.sub-status-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;}
+.sub-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;}
+.sub-active{background:rgba(0,200,83,0.15);color:var(--green);border:1px solid rgba(0,200,83,0.3);}
+.sub-trial{background:rgba(255,214,0,0.15);color:var(--gold);border:1px solid rgba(255,214,0,0.3);}
+.sub-expired{background:rgba(255,59,48,0.15);color:var(--red);border:1px solid rgba(255,59,48,0.3);}
+.progress-bar{background:var(--border);border-radius:20px;height:8px;margin:12px 0;}
+.progress-fill{background:var(--green);border-radius:20px;height:8px;transition:width .5s;}
+.progress-fill.warning{background:var(--gold);}
+.progress-fill.danger{background:var(--red);}
+
+/* PAYSTACK */
+.pay-card{background:linear-gradient(135deg,var(--card-bg),var(--navy-mid));border:1px solid rgba(0,200,83,0.3);border-radius:var(--radius);padding:28px;margin-bottom:1.5rem;text-align:center;}
+.pay-card h3{font-size:20px;font-weight:700;margin-bottom:8px;}
+.pay-card p{color:var(--muted);font-size:14px;margin-bottom:20px;}
+.pay-amount{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--green);margin:12px 0;}
+.pay-amount span{font-size:16px;color:var(--muted);font-family:'DM Sans';font-weight:400;}
+.pay-btn{background:var(--green);color:var(--navy);border:none;border-radius:12px;padding:16px 40px;font-size:17px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:10px;}
+.pay-btn:hover{background:#00e05a;transform:translateY(-1px);}
+.pay-btn:disabled{background:var(--muted);cursor:not-allowed;transform:none;}
+.paystack-logo{font-size:12px;color:var(--muted);margin-top:10px;}
+.payment-history{margin-top:1.5rem;}
+
+/* TAG CARD */
+.tag-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:1.5rem;}
+.tag-code-display{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--green);letter-spacing:3px;margin:12px 0;}
+.qr-mini{width:80px;height:80px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:12px 0;}
+
+/* CAR REGISTER */
+.register-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:1.5rem;}
+.submit-btn{width:100%;background:var(--green);color:var(--navy);font-weight:700;padding:15px;border-radius:12px;border:none;cursor:pointer;font-size:16px;font-family:'Syne',sans-serif;transition:all .2s;}
+.submit-btn:hover{background:#00e05a;}
+.success-box{display:none;background:rgba(0,200,83,0.1);border:1px solid rgba(0,200,83,0.3);border-radius:12px;padding:20px;text-align:center;margin-top:1rem;}
+
+/* ACTIVITY */
+.activity-item{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border);}
+.a-dot{width:10px;height:10px;border-radius:50%;background:var(--green);margin-top:4px;flex-shrink:0;}
+.a-dot.wa{background:var(--wa);}.a-dot.call{background:var(--gold);}.a-dot.report{background:var(--red);}
+.a-text{font-size:14px;}.a-time{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* ADMIN */
+.dash-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-bottom:2rem;}
+.ds{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:20px;}
+.ds-num{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:var(--green);}
+.ds-label{font-size:12px;color:var(--muted);margin-top:4px;}
+.table-wrap{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.5rem;}
+.table-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.table-head h3{font-size:15px;font-weight:600;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;padding:12px 20px;font-size:12px;color:var(--muted);font-weight:400;letter-spacing:0.5px;border-bottom:1px solid var(--border);}
+td{padding:12px 20px;font-size:13px;border-bottom:1px solid var(--border);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,0.02);}
+.status-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;}
+.status-active{background:rgba(0,200,83,0.15);color:var(--green);}
+.status-trial{background:rgba(255,214,0,0.15);color:var(--gold);}
+.status-expired{background:rgba(255,59,48,0.15);color:var(--red);}
+.search-input{background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--white);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;width:180px;}
+.search-input:focus{border-color:var(--green);}
 
 /* SCAN PAGE */
-#page-scan { padding-top: 80px; min-height: 100vh; }
-.scan-wrap { max-width: 420px; margin: 0 auto; padding: 40px 20px; }
-.scan-top { text-align: center; margin-bottom: 2rem; }
-.plate-badge { display: inline-block; background: #fff; color: #000; border: 3px solid #000; border-radius: 8px; padding: 6px 20px; font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
-.car-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--green-dark); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 36px; }
-.masked-num { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; font-size: 14px; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
-.masked-num strong { color: var(--white); font-family: 'Syne', sans-serif; letter-spacing: 2px; }
-.alert-box { background: rgba(255,214,0,0.08); border: 1px solid rgba(255,214,0,0.25); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: #FFD600; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 1.5rem; }
-.wa-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: var(--wa); color: #fff; border: none; border-radius: 12px; padding: 16px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s; margin-bottom: 10px; }
-.wa-btn:hover { background: #1ebe5d; }
-.call-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: var(--navy-light); color: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s; margin-bottom: 16px; }
-.call-btn:hover { background: var(--green-dark); border-color: var(--green); }
-.privacy-note { text-align: center; font-size: 11px; color: var(--muted); margin-top: 1.5rem; }
-.privacy-note span { color: var(--green); }
-.report-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: none; border: 1px solid rgba(255,59,48,0.3); color: rgba(255,59,48,0.7); border-radius: 10px; padding: 10px; font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 12px; transition: all .2s; }
-.report-btn:hover { border-color: var(--red); color: var(--red); }
+#page-scan{padding-top:80px;min-height:100vh;}
+.scan-wrap{max-width:420px;margin:0 auto;padding:40px 20px;}
+.scan-top{text-align:center;margin-bottom:2rem;}
+.plate-badge{display:inline-block;background:#fff;color:#000;border:3px solid #000;border-radius:8px;padding:6px 20px;font-family:'Syne',sans-serif;font-size:22px;font-weight:700;letter-spacing:3px;margin-bottom:12px;}
+.car-avatar{width:80px;height:80px;border-radius:50%;background:var(--green-dark);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;}
+.masked-num{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:14px;color:var(--muted);display:inline-flex;align-items:center;gap:8px;margin-bottom:1rem;}
+.masked-num strong{color:var(--white);font-family:'Syne',sans-serif;letter-spacing:2px;}
+.alert-box{background:rgba(255,214,0,0.08);border:1px solid rgba(255,214,0,0.25);border-radius:12px;padding:14px 16px;font-size:13px;color:#FFD600;display:flex;gap:10px;align-items:flex-start;margin-bottom:1.5rem;}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--wa);color:#fff;border:none;border-radius:12px;padding:16px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-bottom:10px;}
+.wa-btn:hover{background:#1ebe5d;}
+.call-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--navy-light);color:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-bottom:10px;}
+.call-btn:hover{background:var(--green-dark);border-color:var(--green);}
+.emergency-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.emergency-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.3);border-radius:12px;padding:14px 10px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.emergency-btn:hover{background:rgba(255,59,48,0.2);border-color:var(--red);}
+.e-num{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--red);}
+.e-label{font-size:11px;color:var(--muted);text-align:center;line-height:1.3;}
+.report-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:none;border:1px solid rgba(255,59,48,0.3);color:rgba(255,59,48,0.7);border-radius:10px;padding:10px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:12px;transition:all .2s;}
+.report-btn:hover{border-color:var(--red);color:var(--red);}
+.privacy-note{text-align:center;font-size:11px;color:var(--muted);margin-top:1.5rem;}
+.privacy-note span{color:var(--green);}
 
-/* REGISTER */
-#page-register { padding-top: 80px; min-height: 100vh; }
-.reg-wrap { max-width: 520px; margin: 0 auto; padding: 40px 20px; }
-.reg-wrap h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-.reg-wrap > p { color: var(--muted); margin-bottom: 2rem; font-size: 15px; }
-.form-group { margin-bottom: 20px; }
-.form-group label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.5px; }
-.form-group input, .form-group select { width: 100%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; color: var(--white); font-size: 15px; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color .2s; }
-.form-group input:focus, .form-group select:focus { border-color: var(--green); }
-.form-group select option { background: var(--navy-mid); }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.consent-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 20px; }
-.consent-box label { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted); cursor: pointer; line-height: 1.5; }
-.consent-box input[type=checkbox] { width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0; accent-color: var(--green); }
-.consent-box a { color: var(--green); text-decoration: none; }
-.qr-code-box { background: var(--card-bg); border: 1px dashed rgba(0,200,83,0.4); border-radius: 12px; padding: 24px; text-align: center; margin: 1.5rem 0; }
-.qr-placeholder { width: 120px; height: 120px; border-radius: 8px; margin: 0 auto 12px; background: #fff; display: flex; align-items: center; justify-content: center; }
-.qr-placeholder svg { width: 100px; height: 100px; }
-.submit-reg { width: 100%; background: var(--green); color: var(--navy); font-weight: 700; padding: 16px; border-radius: 12px; border: none; cursor: pointer; font-size: 16px; font-family: 'Syne', sans-serif; transition: all .2s; }
-.submit-reg:hover { background: #00e05a; }
-.success-box { display: none; background: rgba(0,200,83,0.1); border: 1px solid rgba(0,200,83,0.3); border-radius: 12px; padding: 20px; text-align: center; margin-top: 1rem; }
+/* BLOG */
+#page-blog{padding-top:80px;min-height:100vh;}
+.blog-wrap{max-width:900px;margin:0 auto;padding:60px 24px;}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;}
+.blog-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .2s;cursor:pointer;}
+.blog-card:hover{border-color:rgba(0,200,83,0.4);transform:translateY(-2px);}
+.blog-img{height:140px;display:flex;align-items:center;justify-content:center;font-size:56px;background:var(--navy-mid);}
+.blog-body{padding:18px;}
+.blog-tag{font-size:11px;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.blog-body h3{font-size:15px;font-weight:700;margin-bottom:6px;line-height:1.4;}
+.blog-body p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px;}
+.blog-meta{font-size:12px;color:var(--muted);}
 
-/* DASHBOARD */
-#page-dashboard { padding-top: 80px; min-height: 100vh; }
-.dash-wrap { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
-.dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
-.dash-header h2 { font-size: 26px; font-weight: 700; }
-.dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 2rem; }
-.ds { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.ds-num { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 800; color: var(--green); }
-.ds-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
-.table-wrap { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.table-head { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.table-head h3 { font-size: 15px; font-weight: 600; }
-table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 12px 20px; font-size: 12px; color: var(--muted); font-weight: 400; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
-td { padding: 14px 20px; font-size: 14px; border-bottom: 1px solid var(--border); }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: rgba(255,255,255,0.02); }
-.status-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
-.status-active { background: rgba(0,200,83,0.15); color: var(--green); }
-.status-pending { background: rgba(255,214,0,0.15); color: var(--gold); }
-.status-inactive { background: rgba(255,59,48,0.15); color: var(--red); }
-.action-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all .2s; }
-.action-btn:hover { border-color: var(--green); color: var(--green); }
-.search-input { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; color: var(--white); font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none; width: 200px; }
-.search-input:focus { border-color: var(--green); }
-.add-btn { background: var(--green); color: var(--navy); border: none; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-.notif-item { display: flex; gap: 14px; align-items: flex-start; padding: 14px 20px; border-bottom: 1px solid var(--border); }
-.notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); margin-top: 5px; flex-shrink: 0; }
-.notif-dot.wa { background: var(--wa); }
-.notif-dot.call { background: var(--gold); }
-.notif-dot.report { background: var(--red); }
-.notif-text { font-size: 14px; }
-.notif-time { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-/* SHOP */
-#page-shop { padding-top: 80px; min-height: 100vh; }
-.shop-wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-.shop-wrap h2 { font-size: 32px; font-weight: 700; margin-bottom: 4px; }
-.shop-wrap > p { color: var(--muted); margin-bottom: 2.5rem; }
-.products { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-.product-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: border-color .2s, transform .2s; }
-.product-card:hover { border-color: rgba(0,200,83,0.4); transform: translateY(-2px); }
-.product-card.featured { border-color: var(--green); }
-.product-tag { font-size: 11px; background: var(--green); color: var(--navy); padding: 3px 10px; border-radius: 20px; font-weight: 600; display: inline-block; margin-bottom: 12px; }
-.product-img { font-size: 48px; margin-bottom: 12px; }
-.product-card h3 { font-size: 17px; margin-bottom: 6px; }
-.product-card p { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
-.price { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: var(--green); margin-bottom: 16px; }
-.price span { font-size: 14px; color: var(--muted); font-family: 'DM Sans'; font-weight: 400; }
-.buy-btn { width: 100%; background: var(--green); color: var(--navy); border: none; border-radius: 10px; padding: 12px; font-weight: 600; font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .2s; }
-.buy-btn:hover { background: #00e05a; }
-.buy-btn.outline { background: none; border: 1px solid var(--border); color: var(--white); }
-.buy-btn.outline:hover { border-color: var(--green); color: var(--green); background: none; }
-
-/* LEGAL PAGES */
-#page-privacy, #page-terms { padding-top: 80px; min-height: 100vh; }
-.legal-wrap { max-width: 720px; margin: 0 auto; padding: 40px 20px; }
-.legal-wrap h2 { font-size: 32px; font-weight: 700; margin-bottom: 4px; }
-.legal-date { font-size: 13px; color: var(--muted); margin-bottom: 2rem; }
-.legal-section { margin-bottom: 2rem; }
-.legal-section h3 { font-size: 16px; font-weight: 600; color: var(--green); margin-bottom: 10px; }
-.legal-section p, .legal-section li { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 8px; }
-.legal-section ul { padding-left: 20px; }
-.legal-back { background: none; border: 1px solid var(--border); color: var(--muted); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-bottom: 2rem; transition: all .2s; }
-.legal-back:hover { border-color: var(--green); color: var(--green); }
+/* LEGAL */
+#page-privacy,#page-terms{padding-top:80px;min-height:100vh;}
+.legal-wrap{max-width:720px;margin:0 auto;padding:40px 20px;}
+.legal-wrap h2{font-size:32px;font-weight:700;margin-bottom:4px;}
+.legal-date{font-size:13px;color:var(--muted);margin-bottom:2rem;}
+.legal-section{margin-bottom:2rem;}
+.legal-section h3{font-size:16px;font-weight:600;color:var(--green);margin-bottom:10px;}
+.legal-section p,.legal-section li{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:8px;}
+.legal-section ul{padding-left:20px;}
 
 /* MODALS */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; }
-.modal-overlay.open { display: flex; }
-.modal { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 20px; padding: 28px; max-width: 380px; width: 90%; animation: fadeUp .3s ease; }
-.modal h3 { font-size: 18px; margin-bottom: 8px; }
-.modal p { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; }
-.chat-bubble { background: var(--card-bg); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; font-size: 14px; }
-.chat-bubble.from-system { border-left: 3px solid var(--green); }
-.chat-bubble .meta { font-size: 11px; color: var(--muted); margin-top: 6px; }
-.modal-close { width: 100%; background: none; border: 1px solid var(--border); color: var(--muted); padding: 12px; border-radius: 10px; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 12px; }
-.report-textarea { width: 100%; background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px; resize: none; margin-bottom: 12px; }
-.report-submit { width: 100%; background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--navy-mid);border:1px solid var(--border);border-radius:20px;padding:28px;max-width:400px;width:90%;animation:fadeUp .3s ease;}
+.modal h3{font-size:18px;margin-bottom:8px;}
+.modal p{font-size:14px;color:var(--muted);margin-bottom:1.5rem;}
+.chat-bubble{background:var(--card-bg);border-radius:12px;padding:14px 16px;margin-bottom:10px;font-size:14px;}
+.chat-bubble.sys{border-left:3px solid var(--green);}
+.chat-bubble .meta{font-size:11px;color:var(--muted);margin-top:6px;}
+.modal-close{width:100%;background:none;border:1px solid var(--border);color:var(--muted);padding:12px;border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:10px;}
+.report-textarea{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;resize:none;margin-bottom:12px;}
+.report-submit{width:100%;background:var(--red);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
 
 /* FOOTER */
-.site-footer { border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 12px; color: var(--muted); }
-.site-footer a { color: var(--green); text-decoration: none; cursor: pointer; }
-.site-footer a:hover { text-decoration: underline; }
+.site-footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;font-size:13px;color:var(--muted);}
+.site-footer a{color:var(--green);margin:0 10px;}
+.footer-logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:12px;}
+.footer-logo span{color:var(--green);}
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 600px) { nav .nav-links button { padding: 5px 10px; font-size: 11px; } .form-row { grid-template-columns: 1fr; } }
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:600px){
+  nav .nav-links button{padding:5px 10px;font-size:11px;}
+  .form-row{grid-template-columns:1fr;}
+  .auth-card{padding:24px 20px;}
+}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="logo" onclick="goto('home')">Call<span>My</span>Oga</div>
   <div class="nav-links">
-    <button onclick="goto('scan')" id="nav-scan">🔍 Demo</button>
-    <button onclick="goto('register')" id="nav-register">Register</button>
-    <button onclick="goto('shop')" id="nav-shop">Shop</button>
-    <button onclick="goto('dashboard')" id="nav-dashboard">Dashboard</button>
+    <button onclick="goto('pricing')" id="nav-pricing">Pricing</button>
+    <button onclick="goto('blog')" id="nav-blog">Blog</button>
+    <div id="nav-user-area">
+      <button onclick="goto('login')">Login</button>
+      <button onclick="goto('signup')" class="nav-cta">Start Free Trial</button>
+    </div>
   </div>
 </nav>
 
-<!-- HOME -->
+<!-- ══ HOME ══ -->
 <div id="page-home" class="page active">
   <div class="hero">
-    <div class="hero-badge">🇳🇬 Made for Nigeria</div>
+    <div class="hero-badge">🇳🇬 Made for Nigeria · 3 Months Free</div>
     <h1>Someone blocked<br>your car? <em>We got you covered.</em></h1>
-    <p>Stick our QR tag on your car. Anyone who needs to reach you gets through instantly — without ever seeing your real phone number.</p>
+    <p>Stick our QR tag on your windscreen. Anyone who needs to reach you gets through instantly — without ever seeing your real number.</p>
     <div class="hero-btns">
-      <button class="btn-primary" onclick="goto('scan')">See How It Works</button>
-      <button class="btn-outline" onclick="goto('shop')">Buy a Tag — ₦5,000</button>
+      <button class="btn-primary" onclick="goto('signup')">Start Free — 3 Months <span class="free-tag">FREE</span></button>
+      <button class="btn-outline" onclick="goto('scan')">See Demo</button>
     </div>
   </div>
+
   <div class="section">
-    <div class="section-label">The Process</div>
+    <div class="section-label">How it works</div>
     <h2>Simple. Private. Nigerian.</h2>
     <div class="steps">
-      <div class="step-card"><div class="step-num">01</div><div class="step-icon">🛒</div><h3>Buy your tag</h3><p>Order a waterproof QR sticker. Each one has a unique code linked to your car.</p></div>
-      <div class="step-card"><div class="step-num">02</div><div class="step-icon">📱</div><h3>Register your number</h3><p>Link your phone number to your sticker. We mask it — nobody ever sees it.</p></div>
-      <div class="step-card"><div class="step-num">03</div><div class="step-icon">📌</div><h3>Stick it on your car</h3><p>Place on windscreen or bumper. Weatherproof for Nigerian sun and rain.</p></div>
-      <div class="step-card"><div class="step-num">04</div><div class="step-icon">💬</div><h3>Get contacted privately</h3><p>Stranger scans, taps WhatsApp or Call — you get notified. Their number stays private too.</p></div>
+      <div class="step-card"><div class="step-num">01</div><div class="step-icon">📝</div><h3>Sign up free</h3><p>Create your account. No payment needed. Get 3 full months free — no credit card required.</p></div>
+      <div class="step-card"><div class="step-num">02</div><div class="step-icon">📦</div><h3>Receive your sticker</h3><p>We deliver a waterproof QR sticker to your address. Place it on your windscreen.</p></div>
+      <div class="step-card"><div class="step-num">03</div><div class="step-icon">📱</div><h3>Register your car</h3><p>Link your plate number and phone. Your number is encrypted — nobody ever sees it.</p></div>
+      <div class="step-card"><div class="step-num">04</div><div class="step-icon">💬</div><h3>Get contacted privately</h3><p>Stranger scans → WhatsApp or Call → you receive it. Both numbers always masked.</p></div>
     </div>
     <div class="stats">
-      <div class="stat"><div class="stat-num">400M</div><div class="stat-label">Potential customers</div></div>
-      <div class="stat"><div class="stat-num">0</div><div class="stat-label">Phone numbers exposed</div></div>
-      <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Always reachable</div></div>
-      <div class="stat"><div class="stat-num">₦0</div><div class="stat-label">Monthly fee (basic)</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Months free trial</div></div>
+      <div class="stat"><div class="stat-num">₦5k</div><div class="stat-label">Per year after</div></div>
+      <div class="stat"><div class="stat-num">0</div><div class="stat-label">Numbers exposed</div></div>
+      <div class="stat"><div class="stat-num">112</div><div class="stat-label">Emergency ready</div></div>
     </div>
   </div>
-  <div class="site-footer">
-    &copy; 2025 CallMyOga · <a onclick="goto('privacy')">Privacy Policy</a> · <a onclick="goto('terms')">Terms of Service</a> · <a onclick="goto('shop')">Shop</a> · Made in Nigeria 🇳🇬
+
+  <div style="background:rgba(255,59,48,0.06);border-top:1px solid rgba(255,59,48,0.15);border-bottom:1px solid rgba(255,59,48,0.15);padding:40px 24px;text-align:center;">
+    <div style="max-width:600px;margin:0 auto;">
+      <div style="font-size:12px;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">🚨 Emergency Numbers on Every Sticker</div>
+      <h2 style="font-size:26px;font-weight:700;margin-bottom:10px;">112 & 122 printed on every tag</h2>
+      <p style="color:var(--muted);margin-bottom:20px;font-size:14px;">In an accident, scanners can call Nigeria's national emergency line or Road Safety directly from your sticker.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <div style="background:var(--card-bg);border:1px solid rgba(255,59,48,0.3);border-radius:12px;padding:16px 32px;">
+          <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--red);">112</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">National Emergency</div>
+        </div>
+        <div style="background:var(--card-bg);border:1px solid rgba(255,59,48,0.3);border-radius:12px;padding:16px 32px;">
+          <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--red);">122</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">Road Safety (FRSC)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="text-align:center;">
+    <h2>Start protecting your privacy today</h2>
+    <p style="color:var(--muted);margin-bottom:2rem;font-size:16px;">3 months completely free. Then just ₦5,000/year — less than ₦14/day.</p>
+    <button class="btn-primary" style="font-size:17px;padding:16px 36px;" onclick="goto('signup')">Get Started Free →</button>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-logo">Call<span>My</span>Oga</div>
+    <div style="margin-bottom:12px;">
+      <a onclick="goto('pricing')">Pricing</a><a onclick="goto('blog')">Blog</a>
+      <a onclick="goto('privacy')">Privacy Policy</a><a onclick="goto('terms')">Terms</a>
+    </div>
+    <div>&copy; 2025 CallMyOga · Made in Nigeria 🇳🇬 · hello@callmyoga.com</div>
+  </footer>
+</div>
+
+<!-- ══ PRICING ══ -->
+<div id="page-pricing" class="page">
+  <div class="pricing-wrap">
+    <h2>Pricing</h2>
+    <p class="pricing-sub">Start free. Pay only when you're happy.</p>
+
+    <div class="trial-highlight">
+      <div class="trial-num">3</div>
+      <h3>Months completely free</h3>
+      <p>No credit card. No commitment. Full access from day one.<br>After 3 months, continue for just ₦5,000/year.</p>
+      <button class="pricing-btn" style="max-width:280px;margin:0 auto;" onclick="goto('signup')">Start Free Trial →</button>
+    </div>
+
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <h3>Free Trial</h3>
+        <div class="price-amt">₦0 <span>/ 3 months</span></div>
+        <div class="price-desc">No card required</div>
+        <ul class="pricing-features">
+          <li>1 QR sticker delivered free</li>
+          <li>Anonymous WhatsApp contact</li>
+          <li>Anonymous masked calls</li>
+          <li>112 & 122 on your sticker</li>
+          <li>Full profile dashboard</li>
+          <li>Contact activity log</li>
+        </ul>
+        <button class="pricing-btn" onclick="goto('signup')">Start Free</button>
+      </div>
+      <div class="pricing-card featured">
+        <h3>Annual Plan</h3>
+        <div class="price-amt">₦5,000 <span>/ year</span></div>
+        <div class="price-desc">₦417/month · Pay via Paystack</div>
+        <ul class="pricing-features">
+          <li>Everything in Free Trial</li>
+          <li>Continued service after 3 months</li>
+          <li>Priority WhatsApp support</li>
+          <li>NDPR-compliant data protection</li>
+          <li>Misuse reporting & investigation</li>
+          <li>Renewal reminders by WhatsApp</li>
+        </ul>
+        <button class="pricing-btn" onclick="goto('signup')">Start Free → Pay Later</button>
+      </div>
+      <div class="pricing-card">
+        <h3>Fleet / Business</h3>
+        <div class="price-amt">₦3,500 <span>/ car/yr</span></div>
+        <div class="price-desc">10+ vehicles · Central dashboard</div>
+        <ul class="pricing-features">
+          <li>Everything in Annual</li>
+          <li>Bulk sticker delivery</li>
+          <li>Fleet management dashboard</li>
+          <li>Dedicated account manager</li>
+          <li>Custom branding option</li>
+        </ul>
+        <button class="pricing-btn outline" onclick="alert('Email: hello@callmyoga.com')">Contact Sales</button>
+      </div>
+    </div>
+
+    <h3 style="font-size:22px;font-weight:700;margin-bottom:1.5rem;text-align:center;">FAQs</h3>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>Do I need a credit card to start?</h4><p>No. The 3-month free trial requires no payment details. After 3 months you pay ₦5,000 via Paystack (card, bank transfer or USSD).</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>What happens after 3 months?</h4><p>You'll receive WhatsApp reminders at day 75 and day 85. At day 90 your tag is paused — scanners see a "currently unavailable" message. Pay ₦5,000 to reactivate immediately.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>How does number masking work?</h4><p>All contacts go through CallMyOga's relay number via Africa's Talking API. Neither party ever sees the other's real phone number.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>What are 112 and 122?</h4><p>112 is Nigeria's National Emergency number (Police, Fire, Ambulance). 122 is the Federal Road Safety Corps (FRSC). Both are printed on your sticker for emergency situations.</p></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><h4>Is my data safe?</h4><p>Yes. We're NDPR compliant. Your phone number is encrypted and never visible to anyone who scans your tag. We never sell your data.</p></div>
+  </div>
+  <footer class="site-footer"><a onclick="goto('privacy')">Privacy</a><a onclick="goto('terms')">Terms</a><a onclick="goto('home')">Home</a><div style="margin-top:8px">&copy; 2025 CallMyOga</div></footer>
+</div>
+
+<!-- ══ SIGNUP ══ -->
+<div id="page-signup" class="page">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="logo" style="margin-bottom:16px;" onclick="goto('home')">Call<span>My</span>Oga</div>
+      <h2>Create your account</h2>
+      <p>3 months free · No credit card required</p>
+      <div class="trial-notice">
+        <strong>🎉 3 Months FREE</strong>
+        No payment needed today. Full access from day one.
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="su-fname" placeholder="Chukwudi"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="su-lname" placeholder="Okonkwo"></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" id="su-email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>WhatsApp / Phone Number</label><input type="tel" id="su-phone" placeholder="+234 800 000 0000"></div>
+      <div class="form-row">
+        <div class="form-group"><label>State</label>
+          <select id="su-state">
+            <option value="">Select state</option>
+            <option>Lagos</option><option>Abuja</option><option>Rivers</option><option>Kano</option><option>Oyo</option><option>Anambra</option><option>Delta</option><option>Enugu</option><option>Kaduna</option><option>Katsina</option><option>Borno</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Password</label><input type="password" id="su-pass" placeholder="Min 8 characters"></div>
+      </div>
+      <div class="consent-box"><label><input type="checkbox" id="su-ndpr"> I consent to CallMyOga collecting my data per the <a onclick="goto('privacy')">Privacy Policy</a> (NDPR)</label></div>
+      <div class="consent-box"><label><input type="checkbox" id="su-terms"> I agree to the <a onclick="goto('terms')">Terms of Service</a></label></div>
+      <button class="auth-btn" onclick="signUp()">Create Free Account →</button>
+      <div class="auth-switch">Already have an account? <a onclick="goto('login')">Log in</a></div>
+    </div>
   </div>
 </div>
 
-<!-- SCAN PAGE -->
+<!-- ══ LOGIN ══ -->
+<div id="page-login" class="page">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="logo" style="margin-bottom:16px;" onclick="goto('home')">Call<span>My</span>Oga</div>
+      <h2>Welcome back</h2>
+      <p>Log in to manage your tag and subscription.</p>
+      <div class="form-group"><label>Email Address</label><input type="email" id="li-email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="li-pass" placeholder="Your password"></div>
+      <button class="auth-btn" onclick="logIn()">Log In →</button>
+      <div style="text-align:center;margin-top:12px;">
+        <button style="background:none;border:1px solid var(--border);color:var(--muted);padding:10px 20px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;width:100%;" onclick="demoLogin()">👤 Demo Login (try without account)</button>
+      </div>
+      <div class="auth-switch">No account? <a onclick="goto('signup')">Start free trial</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CUSTOMER PROFILE ══ -->
+<div id="page-profile" class="page">
+  <div class="profile-wrap">
+    <div class="profile-header">
+      <div class="profile-avatar" id="prof-avatar">C</div>
+      <div>
+        <h2 id="prof-name">Chukwudi Okonkwo</h2>
+        <p id="prof-email">chukwudi@example.com · Lagos</p>
+      </div>
+      <button style="margin-left:auto;background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;" onclick="logOut()">Log Out</button>
+    </div>
+
+    <div class="profile-tabs">
+      <button class="p-tab active" onclick="switchPTab('pt-overview',this)">Overview</button>
+      <button class="p-tab" onclick="switchPTab('pt-subscription',this)">Subscription</button>
+      <button class="p-tab" onclick="switchPTab('pt-mytag',this)">My Tag</button>
+      <button class="p-tab" onclick="switchPTab('pt-register',this)">Register Car</button>
+      <button class="p-tab" onclick="switchPTab('pt-activity',this)">Activity</button>
+      <button class="p-tab" onclick="switchPTab('pt-settings',this)">Settings</button>
+    </div>
+
+    <!-- OVERVIEW TAB -->
+    <div id="pt-overview" class="tab-content active">
+      <div id="trial-status-banner"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:1.5rem;">
+        <div class="ds"><div class="ds-num" id="ov-contacts">24</div><div class="ds-label">Total Contacts</div></div>
+        <div class="ds"><div class="ds-num" id="ov-days-left">87</div><div class="ds-label">Trial Days Left</div></div>
+        <div class="ds"><div class="ds-num" id="ov-tag-status">Active</div><div class="ds-label">Tag Status</div></div>
+      </div>
+      <div class="tag-card">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+          <div>
+            <div style="font-size:13px;color:var(--muted);margin-bottom:4px;">Your tag code</div>
+            <div class="tag-code-display" id="ov-tag-code">CMO-A1B2C3</div>
+            <div style="font-size:14px;color:var(--muted);" id="ov-car-info">Lagos · Toyota Camry · Silver</div>
+            <div style="font-size:13px;color:var(--green);margin-top:8px;">callmyoga.com/c/<span id="ov-tag-code2">CMO-A1B2C3</span></div>
+          </div>
+          <div class="qr-mini">
+            <svg viewBox="0 0 100 100" width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="16" y="16" width="18" height="18" fill="#000"/>
+              <rect x="60" y="10" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="66" y="16" width="18" height="18" fill="#000"/>
+              <rect x="10" y="60" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="16" y="66" width="18" height="18" fill="#000"/>
+              <rect x="60" y="60" width="8" height="8" fill="#000"/><rect x="72" y="60" width="8" height="8" fill="#000"/>
+            </svg>
+          </div>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-primary" style="font-size:13px;padding:10px 18px;" onclick="goto('scan')">Preview Scan Page →</button>
+          <button class="btn-outline" style="font-size:13px;padding:10px 18px;" onclick="switchPTab('pt-register',document.querySelectorAll('.p-tab')[3])">Edit Car Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBSCRIPTION TAB -->
+    <div id="pt-subscription" class="tab-content">
+      <div id="sub-status-detail"></div>
+      <div class="pay-card" id="pay-section">
+        <h3>Activate Annual Subscription</h3>
+        <p>Continue full access after your free trial ends. Secure payment via Paystack.</p>
+        <div class="pay-amount">₦5,000 <span>/ year</span></div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">That's just ₦417/month · Cancel anytime</p>
+        <button class="pay-btn" onclick="initiatePaystack()" id="paystack-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Pay ₦5,000 via Paystack
+        </button>
+        <div class="paystack-logo">🔒 Secured by Paystack · Card · Bank Transfer · USSD</div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-head"><h3>Payment History</h3></div>
+        <table>
+          <thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th><th>Reference</th></tr></thead>
+          <tbody id="payment-history-tbody">
+            <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">No payments yet — you're on your free trial</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MY TAG TAB -->
+    <div id="pt-mytag" class="tab-content">
+      <div class="tag-card">
+        <h3 style="margin-bottom:16px;">Tag Details</h3>
+        <div style="font-size:13px;color:var(--muted);">Tag Code</div>
+        <div class="tag-code-display">CMO-A1B2C3</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:4px;">Scan URL</div>
+        <div style="font-size:14px;color:var(--green);margin-bottom:16px;">callmyoga.com/c/CMO-A1B2C3</div>
+        <div class="qr-mini">
+          <svg viewBox="0 0 100 100" width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="16" y="16" width="18" height="18" fill="#000"/>
+            <rect x="60" y="10" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="66" y="16" width="18" height="18" fill="#000"/>
+            <rect x="10" y="60" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="16" y="66" width="18" height="18" fill="#000"/>
+            <rect x="60" y="60" width="8" height="8" fill="#000"/>
+          </svg>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px;">Save this QR code — it's the same one on your sticker</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-primary" style="font-size:13px;padding:10px 18px;" onclick="goto('scan')">Preview Scan Page</button>
+          <button class="btn-outline" style="font-size:13px;padding:10px 18px;" onclick="alert('Deactivation request sent to hello@callmyoga.com')">Deactivate Tag</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGISTER CAR TAB -->
+    <div id="pt-register" class="tab-content">
+      <div class="register-card">
+        <h3 style="margin-bottom:20px;">Register / Update Your Car</h3>
+        <div class="form-row">
+          <div class="form-group"><label>Tag Code</label><input type="text" id="reg-code" placeholder="CMO-A1B2C3" style="text-transform:uppercase"></div>
+          <div class="form-group"><label>Phone for Contact</label><input type="tel" id="reg-phone" placeholder="+234 800 000 0000"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Plate Number</label><input type="text" id="reg-plate" placeholder="LAG 234 AB" style="text-transform:uppercase"></div>
+          <div class="form-group"><label>State</label>
+            <select id="reg-state">
+              <option value="">Select</option>
+              <option>Lagos</option><option>Abuja</option><option>Rivers</option><option>Kano</option><option>Oyo</option><option>Anambra</option><option>Delta</option><option>Enugu</option><option>Kaduna</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Car Description</label><input type="text" id="reg-car" placeholder="Toyota Camry 2019 · Silver"></div>
+        <div class="form-group"><label>WhatsApp Number (if different from account phone)</label><input type="tel" id="reg-wa" placeholder="Leave blank if same"></div>
+        <button class="submit-btn" onclick="registerCar()">Save Car Details →</button>
+        <div class="success-box" id="reg-success">✅ <strong>Car registered!</strong> Your scan page is now live.<br>
+          <button class="btn-primary" style="margin-top:12px;font-size:13px;padding:10px 18px;" onclick="goto('scan')">Preview Scan Page →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY TAB -->
+    <div id="pt-activity" class="tab-content">
+      <div class="card" style="margin-bottom:1.5rem;">
+        <h3 style="margin-bottom:16px;">Contact Activity Log</h3>
+        <div id="activity-list"></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div id="pt-settings" class="tab-content">
+      <div class="register-card">
+        <h3 style="margin-bottom:20px;">Account Settings</h3>
+        <div class="form-group"><label>Full Name</label><input type="text" id="set-name" placeholder="Your name"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="set-email" placeholder="your@email.com"></div>
+        <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="set-phone" placeholder="+234 800 000 0000"></div>
+        <div class="form-group"><label>State</label>
+          <select id="set-state">
+            <option>Lagos</option><option>Abuja</option><option>Rivers</option><option>Kano</option><option>Oyo</option><option>Other</option>
+          </select>
+        </div>
+        <button class="submit-btn" onclick="saveSettings()">Save Changes →</button>
+      </div>
+      <div class="register-card" style="margin-top:1rem;border-color:rgba(255,59,48,0.3);">
+        <h3 style="margin-bottom:8px;color:var(--red);">Danger Zone</h3>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">Permanently delete your account and all data. This cannot be undone.</p>
+        <button style="background:none;border:1px solid var(--red);color:var(--red);padding:10px 20px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;" onclick="alert('Send deletion request to hello@callmyoga.com')">Request Account Deletion</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN ══ -->
+<div id="page-admin" class="page">
+  <div class="admin-wrap">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:12px;">
+      <div><h2>Admin Panel</h2><div style="font-size:13px;color:var(--muted)">CallMyOga · Operations Dashboard</div></div>
+      <button style="background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;" onclick="logOut()">Log Out</button>
+    </div>
+    <div class="dash-stats">
+      <div class="ds"><div class="ds-num" id="adm-total">0</div><div class="ds-label">Total Users</div></div>
+      <div class="ds"><div class="ds-num" id="adm-trial">0</div><div class="ds-label">On Trial</div></div>
+      <div class="ds"><div class="ds-num" id="adm-paid">0</div><div class="ds-label">Paid Subscribers</div></div>
+      <div class="ds"><div class="ds-num" id="adm-revenue">₦0</div><div class="ds-label">Revenue MTD</div></div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-head"><h3>All Users</h3><input class="search-input" type="text" placeholder="Search..." oninput="filterAdminTable(this.value)"></div>
+      <div style="overflow-x:auto">
+        <table><thead><tr><th>Name</th><th>Email</th><th>Plate</th><th>State</th><th>Status</th><th>Days Left</th><th>Revenue</th></tr></thead>
+        <tbody id="admin-tbody"></tbody></table>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-head"><h3>Recent Activity</h3></div>
+      <div id="admin-activity"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCAN PAGE ══ -->
 <div id="page-scan" class="page">
   <div class="scan-wrap">
     <div class="scan-top">
       <div class="car-avatar">🚗</div>
       <div class="plate-badge" id="scan-plate">LAG 234 AB</div>
-      <div style="font-size:14px; color:var(--muted); margin-bottom:8px" id="scan-car-info">Lagos · Toyota Camry · Silver</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:8px" id="scan-car-info">Lagos · Toyota Camry · Silver</div>
       <div class="masked-num">🔒 Owner's number: <strong id="scan-masked">080** *** **34</strong></div>
     </div>
-    <div class="alert-box">⚠️ <span>This vehicle may be blocking you or in an emergency situation. Contact the owner anonymously — your number is also protected.</span></div>
-    <button class="wa-btn" onclick="openWhatsAppModal()">
+    <div class="alert-box">⚠️ <span>Contact the owner anonymously — your number is also protected.</span></div>
+    <button class="wa-btn" onclick="openModal('wa-modal')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.558 4.136 1.535 5.887L.057 23.57a.75.75 0 00.914.914l5.721-1.485A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.7-.504-5.253-1.383l-.375-.217-3.898 1.012 1.018-3.806-.235-.384A9.945 9.945 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
       WhatsApp the owner
     </button>
-    <button class="call-btn" onclick="simulateCall()">📞 Call the owner (masked)</button>
-    <button class="report-btn" onclick="openReportModal()">🚨 Report misuse of this tag</button>
-    <div class="privacy-note">🔒 Your number is <span>never shared</span>. By using this service you agree to our <span onclick="goto('terms')" style="cursor:pointer">Terms</span>. Powered by <span>CallMyOga</span> · Made in Nigeria</div>
+    <button class="call-btn" onclick="openModal('call-modal')">📞 Call the owner (masked)</button>
+    <div class="emergency-row">
+      <button class="emergency-btn" onclick="alert('Calling 112 — National Emergency')"><div class="e-num">112</div><div class="e-label">National Emergency<br>(Police/Fire/Ambulance)</div></button>
+      <button class="emergency-btn" onclick="alert('Calling 122 — Road Safety FRSC')"><div class="e-num">122</div><div class="e-label">Road Safety<br>(FRSC)</div></button>
+    </div>
+    <button class="report-btn" onclick="openModal('report-modal')">🚨 Report misuse of this tag</button>
+    <div class="privacy-note">🔒 Your number is <span>never shared</span> · <span onclick="goto('terms')" style="cursor:pointer">Terms</span> · <span onclick="goto('privacy')" style="cursor:pointer">Privacy</span> · CallMyOga 🇳🇬</div>
   </div>
 </div>
 
-<!-- REGISTER -->
-<div id="page-register" class="page">
-  <div class="reg-wrap">
-    <h2>Activate Your Tag</h2>
-    <p>Link your phone number to your QR sticker. Your number is encrypted and never shown publicly.</p>
-    <div class="form-row">
-      <div class="form-group"><label>TAG CODE (on sticker)</label><input type="text" id="reg-code" placeholder="e.g. CMO-A1B2C3" style="text-transform:uppercase"></div>
-      <div class="form-group"><label>YOUR PHONE NUMBER</label><input type="tel" id="reg-phone" placeholder="+234 800 000 0000"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>PLATE NUMBER</label><input type="text" id="reg-plate" placeholder="e.g. LAG 234 AB" style="text-transform:uppercase"></div>
-      <div class="form-group"><label>STATE</label>
-        <select id="reg-state">
-          <option value="">Select state</option>
-          <option>Lagos</option><option>Abuja</option><option>Rivers</option><option>Kano</option><option>Oyo</option><option>Anambra</option><option>Delta</option><option>Enugu</option><option>Kaduna</option><option>Other</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group"><label>CAR DESCRIPTION (optional)</label><input type="text" id="reg-car" placeholder="e.g. Toyota Camry 2019 · Silver"></div>
-    <div class="form-group"><label>WHATSAPP NUMBER (if different)</label><input type="tel" id="reg-wa" placeholder="+234 800 000 0000 (leave blank if same)"></div>
-
-    <div class="consent-box">
-      <label><input type="checkbox" id="consent-ndpr"> I consent to CallMyOga collecting and storing my phone number and vehicle details for the purpose of anonymous contact relay, in accordance with the <a onclick="goto('privacy')">Privacy Policy</a> (NDPR compliant).</label>
-    </div>
-    <div class="consent-box">
-      <label><input type="checkbox" id="consent-terms"> I agree to the <a onclick="goto('terms')">Terms of Service</a>. I understand CallMyOga is a communication aid — not a guarantee — and I will not misuse this platform to harass others.</label>
-    </div>
-
-    <div class="qr-code-box">
-      <div class="qr-placeholder">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <rect x="10" y="10" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="16" y="16" width="18" height="18" fill="#000"/>
-          <rect x="60" y="10" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="66" y="16" width="18" height="18" fill="#000"/>
-          <rect x="10" y="60" width="30" height="30" fill="none" stroke="#000" stroke-width="4"/><rect x="16" y="66" width="18" height="18" fill="#000"/>
-          <rect x="60" y="60" width="8" height="8" fill="#000"/><rect x="72" y="60" width="8" height="8" fill="#000"/><rect x="84" y="60" width="8" height="8" fill="#000"/>
-          <rect x="60" y="72" width="8" height="8" fill="#000"/><rect x="72" y="84" width="8" height="8" fill="#000"/><rect x="84" y="72" width="8" height="8" fill="#000"/>
-          <rect x="44" y="10" width="8" height="8" fill="#000"/><rect x="44" y="22" width="8" height="8" fill="#000"/><rect x="44" y="44" width="8" height="8" fill="#000"/>
-          <rect x="10" y="44" width="8" height="8" fill="#000"/><rect x="22" y="44" width="8" height="8" fill="#000"/>
-        </svg>
-      </div>
-      <div style="font-size:13px; color:var(--muted)">Your unique QR code — printed on your sticker</div>
-      <div style="font-size:12px; color:var(--green); margin-top:4px" id="reg-code-preview">Enter tag code above to preview</div>
-    </div>
-    <button class="submit-reg" onclick="registerTag()">Activate Tag →</button>
-    <div class="success-box" id="reg-success">
-      ✅ <strong>Tag activated!</strong><br>
-      <span style="font-size:14px; color:var(--muted)">Your QR sticker is now live. Anyone who scans it can reach you privately.</span><br>
-      <button class="btn-primary" style="margin-top:16px; font-size:14px; padding:10px 24px" onclick="goto('scan')">Preview your scan page →</button>
+<!-- ══ BLOG ══ -->
+<div id="page-blog" class="page">
+  <div class="blog-wrap">
+    <h2 style="margin-bottom:8px;">Blog & Tips</h2>
+    <p style="color:var(--muted);margin-bottom:2rem;">Parking tips, safety guides and product updates for Nigerian drivers.</p>
+    <div class="blog-grid">
+      <div class="blog-card" onclick="alert('Full article coming soon')"><div class="blog-img">🚗</div><div class="blog-body"><div class="blog-tag">Safety</div><h3>What to do when someone blocks your car in Lagos</h3><p>From Lekki to Surulere, blocked cars are a daily headache. Here's how to handle it safely.</p><div class="blog-meta">5 min · Nov 2025</div></div></div>
+      <div class="blog-card" onclick="alert('Full article coming soon')"><div class="blog-img">📱</div><div class="blog-body"><div class="blog-tag">Privacy</div><h3>How your phone number stays private with CallMyOga</h3><p>A plain-English explanation of how our relay system keeps both parties anonymous.</p><div class="blog-meta">4 min · Nov 2025</div></div></div>
+      <div class="blog-card" onclick="alert('Full article coming soon')"><div class="blog-img">🚨</div><div class="blog-body"><div class="blog-tag">Emergency</div><h3>Why every Nigerian car should have 112 visible</h3><p>In a road accident, seconds matter. Here's why it belongs on your car.</p><div class="blog-meta">3 min · Oct 2025</div></div></div>
+      <div class="blog-card" onclick="alert('Full article coming soon')"><div class="blog-img">⚖️</div><div class="blog-body"><div class="blog-tag">Legal</div><h3>Your rights as a car owner under Nigerian law</h3><p>FRSC regulations, parking rights, and what the law says about blocked vehicles.</p><div class="blog-meta">6 min · Oct 2025</div></div></div>
     </div>
   </div>
+  <footer class="site-footer"><a onclick="goto('privacy')">Privacy</a><a onclick="goto('terms')">Terms</a><a onclick="goto('home')">Home</a><div style="margin-top:8px">&copy; 2025 CallMyOga</div></footer>
 </div>
 
-<!-- DASHBOARD -->
-<div id="page-dashboard" class="page">
-  <div class="dash-wrap">
-    <div class="dash-header">
-      <div><h2>Admin Dashboard</h2><div style="font-size:13px; color:var(--muted)">CallMyOga · Nigeria Operations</div></div>
-      <button class="add-btn" onclick="goto('register')">+ New Tag</button>
-    </div>
-    <div class="dash-stats">
-      <div class="ds"><div class="ds-num" id="ds-total">0</div><div class="ds-label">Total Tags Sold</div></div>
-      <div class="ds"><div class="ds-num" id="ds-active">0</div><div class="ds-label">Active Tags</div></div>
-      <div class="ds"><div class="ds-num" id="ds-contacts">0</div><div class="ds-label">Contacts Today</div></div>
-      <div class="ds"><div class="ds-num" id="ds-revenue">₦0</div><div class="ds-label">Revenue MTD</div></div>
-    </div>
-    <div class="table-wrap" style="margin-bottom:1.5rem">
-      <div class="table-head"><h3>Registered Tags</h3><input class="search-input" type="text" placeholder="Search plate or tag..." oninput="filterTable(this.value)"></div>
-      <div style="overflow-x:auto"><table id="tags-table"><thead><tr><th>Tag Code</th><th>Plate</th><th>State</th><th>Car</th><th>Status</th><th>Contacts</th><th>Action</th></tr></thead><tbody id="tags-tbody"></tbody></table></div>
-    </div>
-    <div class="table-wrap">
-      <div class="table-head"><h3>Recent Activity</h3></div>
-      <div id="notif-list"></div>
-    </div>
-  </div>
-</div>
-
-<!-- SHOP -->
-<div id="page-shop" class="page">
-  <div class="shop-wrap">
-    <h2>Shop</h2>
-    <p>One sticker. Total privacy. Nigerian pricing.</p>
-    <div class="products">
-      <div class="product-card"><div class="product-img">🏷️</div><h3>Single Tag</h3><p>1 waterproof QR sticker. Perfect for your personal car. Lasts 3+ years outdoors.</p><div class="price">₦5,000 <span>/ tag</span></div><button class="buy-btn" onclick="addToCart('Single Tag', 5000)">Buy Now</button></div>
-      <div class="product-card featured"><div class="product-tag">⭐ BEST VALUE</div><div class="product-img">📦</div><h3>Family Pack (3 Tags)</h3><p>3 stickers for the family fleet. One dashboard for all. Save ₦3,000 vs buying separately.</p><div class="price">₦12,000 <span>/ 3 tags</span></div><button class="buy-btn" onclick="addToCart('Family Pack', 12000)">Buy Now</button></div>
-      <div class="product-card"><div class="product-img">🏢</div><h3>Business (10 Tags)</h3><p>For fleets, car dealers, estates and hotels. Bulk pricing with admin dashboard.</p><div class="price">₦35,000 <span>/ 10 tags</span></div><button class="buy-btn" onclick="addToCart('Business Pack', 35000)">Buy Now</button></div>
-      <div class="product-card"><div class="product-img">🤝</div><h3>Reseller Pack (50 Tags)</h3><p>Sell in your area. 30% margin. Full reseller support and branding materials.</p><div class="price">₦125,000 <span>/ 50 tags</span></div><button class="buy-btn outline" onclick="alert('Contact us: hello@callmyoga.com')">Contact Us</button></div>
-    </div>
-    <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:24px; margin-top:2rem; text-align:center">
-      <div style="font-size:28px; margin-bottom:8px">📱</div>
-      <h3 style="margin-bottom:8px">WhatsApp to Order</h3>
-      <p style="color:var(--muted); font-size:14px; margin-bottom:16px">Pay on delivery available. We deliver nationwide.</p>
-      <button class="wa-btn" style="max-width:300px; margin:0 auto" onclick="alert('Opens WhatsApp to +234 xxx xxx xxxx')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.558 4.136 1.535 5.887L.057 23.57a.75.75 0 00.914.914l5.721-1.485A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.7-.504-5.253-1.383l-.375-.217-3.898 1.012 1.018-3.806-.235-.384A9.945 9.945 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-        Order on WhatsApp
-      </button>
-    </div>
-    <div class="site-footer" style="margin-top:3rem">
-      <a onclick="goto('privacy')">Privacy Policy</a> · <a onclick="goto('terms')">Terms of Service</a> · &copy; 2025 CallMyOga
-    </div>
-  </div>
-</div>
-
-<!-- PRIVACY POLICY -->
+<!-- ══ PRIVACY ══ -->
 <div id="page-privacy" class="page">
   <div class="legal-wrap">
-    <button class="legal-back" onclick="history.back ? goto('home') : goto('home')">← Back</button>
-    <h2>Privacy Policy</h2>
-    <div class="legal-date">Last updated: January 2025 · NDPR Compliant</div>
-    <div class="legal-section"><h3>1. Who we are</h3><p>CallMyOga ("we", "us", "our") is a Nigerian technology service operated under Nigerian law. We can be reached at hello@callmyoga.com.</p></div>
-    <div class="legal-section"><h3>2. What data we collect</h3><ul><li>Phone number (owner only — used solely for anonymous relay)</li><li>Vehicle plate number and state of registration</li><li>Optional car description</li><li>Time and type of contact events (WhatsApp / call)</li><li>IP address of scanners (for abuse prevention only)</li></ul></div>
-    <div class="legal-section"><h3>3. How we use your data</h3><ul><li>To relay anonymous contact between scanner and car owner</li><li>To send you WhatsApp/call notifications when someone scans your tag</li><li>To investigate abuse reports</li><li>We do NOT sell your data to third parties</li><li>We do NOT share your number with scanners under any circumstance</li></ul></div>
-    <div class="legal-section"><h3>4. NDPR compliance</h3><p>We comply with Nigeria's Data Protection Regulation (NDPR) 2019. You have the right to: access your data, correct inaccurate data, delete your data, and withdraw consent at any time. To exercise these rights, email hello@callmyoga.com.</p></div>
-    <div class="legal-section"><h3>5. Data retention</h3><p>Your data is retained for as long as your tag is active. Upon deactivation request, all personal data is deleted within 30 days.</p></div>
-    <div class="legal-section"><h3>6. Security</h3><p>All phone numbers are encrypted at rest. We use industry-standard TLS encryption for all data in transit. We never display your full number publicly.</p></div>
-    <div class="legal-section"><h3>7. Contact</h3><p>For privacy concerns: hello@callmyoga.com</p></div>
-    <div class="site-footer"><a onclick="goto('terms')">Terms of Service</a> · <a onclick="goto('home')">Home</a></div>
+    <button style="background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:1.5rem;" onclick="goto('home')">← Back</button>
+    <h2>Privacy Policy</h2><div class="legal-date">January 2025 · NDPR Compliant</div>
+    <div class="legal-section"><h3>1. Who we are</h3><p>CallMyOga is a Nigerian technology service. Contact: hello@callmyoga.com</p></div>
+    <div class="legal-section"><h3>2. Data we collect</h3><ul><li>Phone number (encrypted, relay only)</li><li>Vehicle plate number and state</li><li>Optional car description</li><li>Contact event logs (type and time only)</li><li>Payment reference numbers</li></ul></div>
+    <div class="legal-section"><h3>3. How we use your data</h3><ul><li>To relay anonymous contact between scanner and owner</li><li>To process Paystack payments and manage subscriptions</li><li>We NEVER sell data or share your number with scanners</li></ul></div>
+    <div class="legal-section"><h3>4. NDPR compliance</h3><p>You have the right to access, correct, delete your data and withdraw consent. Email hello@callmyoga.com.</p></div>
+    <div class="legal-section"><h3>5. Payments</h3><p>Payments are processed by Paystack. We do not store card details. Paystack is PCI-DSS compliant.</p></div>
+    <div class="legal-section"><h3>6. Contact</h3><p>hello@callmyoga.com</p></div>
+    <footer class="site-footer"><a onclick="goto('terms')">Terms</a><a onclick="goto('home')">Home</a></footer>
   </div>
 </div>
 
-<!-- TERMS OF SERVICE -->
+<!-- ══ TERMS ══ -->
 <div id="page-terms" class="page">
   <div class="legal-wrap">
-    <button class="legal-back" onclick="goto('home')">← Back</button>
-    <h2>Terms of Service</h2>
-    <div class="legal-date">Last updated: January 2025 · Governed by Nigerian Law</div>
-    <div class="legal-section"><h3>1. Service description</h3><p>CallMyOga provides an anonymous communication relay service linking QR sticker codes to registered vehicle owners. It is a communication aid only — not a guarantee of contact, security, or emergency response.</p></div>
-    <div class="legal-section"><h3>2. Acceptable use</h3><p>You may only use CallMyOga for legitimate purposes including:</p><ul><li>Notifying a car owner their vehicle is blocking access</li><li>Reporting a flat tyre, hazard, or emergency relating to the vehicle</li><li>Genuine parking-related communication</li></ul></div>
-    <div class="legal-section"><h3>3. Prohibited conduct</h3><p>The following are strictly prohibited and may result in immediate deactivation and referral to law enforcement:</p><ul><li>Placing a CallMyOga sticker on a vehicle without the owner's consent</li><li>Using the platform to harass, threaten, or stalk any individual</li><li>Impersonating a vehicle owner or creating fake registrations</li><li>Using the scan page to locate or surveil individuals</li><li>Any use that violates Nigerian law including the Cybercrimes Act 2015</li></ul></div>
-    <div class="legal-section"><h3>4. Regarding point 3 — sticker misuse (important)</h3><p>A risk exists that a bad actor could stick a CallMyOga tag on someone else's car without their knowledge, then pretend to be the "owner" when contacted. This would allow them to receive calls/messages meant for the real car owner.</p><p style="margin-top:8px">To protect against this: (a) we provide a Report Misuse button on every scan page; (b) we investigate all reports within 24 hours; (c) we cooperate with Nigerian law enforcement for criminal misuse; (d) we recommend owners check their sticker regularly to confirm it is their own registered tag.</p></div>
-    <div class="legal-section"><h3>5. Limitation of liability</h3><p>CallMyOga is not liable for: failure to make contact in an emergency; misuse by third parties; losses arising from reliance on the service. Use at your own discretion.</p></div>
-    <div class="legal-section"><h3>6. Governing law</h3><p>These terms are governed by the laws of the Federal Republic of Nigeria. Disputes shall be resolved in Nigerian courts.</p></div>
-    <div class="legal-section"><h3>7. Contact</h3><p>hello@callmyoga.com</p></div>
-    <div class="site-footer"><a onclick="goto('privacy')">Privacy Policy</a> · <a onclick="goto('home')">Home</a></div>
+    <button style="background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:1.5rem;" onclick="goto('home')">← Back</button>
+    <h2>Terms of Service</h2><div class="legal-date">January 2025 · Nigerian Law</div>
+    <div class="legal-section"><h3>1. Service</h3><p>CallMyOga provides anonymous communication relay. It is a communication aid — not a guarantee of contact or emergency response.</p></div>
+    <div class="legal-section"><h3>2. Free Trial</h3><p>New accounts receive 3 months free access. After 90 days, a subscription of ₦5,000/year is required to continue. Trial accounts that do not subscribe will have their tag paused.</p></div>
+    <div class="legal-section"><h3>3. Payments & Refunds</h3><p>Payments are ₦5,000/year via Paystack. Refunds within 7 days of payment if the tag has not been used. No refunds after use.</p></div>
+    <div class="legal-section"><h3>4. Acceptable use</h3><ul><li>Notifying a car owner their vehicle is blocking access</li><li>Reporting flat tyre, hazard, or emergency</li><li>Genuine parking-related communication</li></ul></div>
+    <div class="legal-section"><h3>5. Prohibited</h3><ul><li>Placing sticker on another's car without consent</li><li>Harassment, threats, stalking</li><li>Fake registrations or impersonation</li><li>Any violation of Nigerian law including Cybercrimes Act 2015</li></ul></div>
+    <div class="legal-section"><h3>6. Sticker misuse</h3><p>Report Misuse button available on every scan page. We investigate within 24 hours and cooperate with Nigerian law enforcement.</p></div>
+    <div class="legal-section"><h3>7. Governing law</h3><p>Laws of the Federal Republic of Nigeria. Disputes in Nigerian courts.</p></div>
+    <footer class="site-footer"><a onclick="goto('privacy')">Privacy</a><a onclick="goto('home')">Home</a></footer>
   </div>
 </div>
 
-<!-- WHATSAPP MODAL -->
+<!-- MODALS -->
 <div class="modal-overlay" id="wa-modal">
   <div class="modal">
     <h3>💬 WhatsApp Relay</h3>
-    <p>Your message goes through CallMyOga's relay number. The owner receives it without seeing your number.</p>
-    <div class="chat-bubble from-system">
-      <div>🚗 <strong>CallMyOga Alert</strong></div>
-      <div style="margin-top:6px; color:var(--muted)">Someone near your vehicle wants to reach you anonymously.</div>
-      <div class="meta">Delivered via +234-relay → Owner's WhatsApp</div>
-    </div>
-    <div class="chat-bubble">
-      <div style="font-size:13px; color:var(--muted)">Owner can reply — your number stays hidden too.</div>
-      <div class="meta">End-to-end private relay</div>
-    </div>
-    <button class="wa-btn" onclick="confirmWhatsApp()">Open WhatsApp to Send →</button>
-    <button class="modal-close" onclick="closeModal()">Cancel</button>
+    <p>Your message goes via CallMyOga's relay. The owner receives it without seeing your number.</p>
+    <div class="chat-bubble sys"><strong>🚗 CallMyOga Alert</strong><div style="margin-top:6px;color:var(--muted)">Someone near your vehicle wants to reach you anonymously.</div><div class="meta">Via +234-relay → Owner WhatsApp</div></div>
+    <div class="chat-bubble"><div style="font-size:13px;color:var(--muted)">Owner can reply — your number stays hidden too.</div></div>
+    <button class="wa-btn" onclick="closeModal('wa-modal');logContact('wa');alert('✅ In production: opens WhatsApp relay.')">Open WhatsApp →</button>
+    <button class="modal-close" onclick="closeModal('wa-modal')">Cancel</button>
   </div>
 </div>
 
-<!-- CALL MODAL -->
 <div class="modal-overlay" id="call-modal">
   <div class="modal">
     <h3>📞 Masked Call</h3>
-    <p>You'll call CallMyOga's relay number. We forward it to the owner — neither of you sees each other's real number.</p>
-    <div style="text-align:center; padding:20px 0">
-      <div style="font-size:48px; margin-bottom:8px">📞</div>
-      <div style="font-family:'Syne',sans-serif; font-size:22px; font-weight:700">+234 xxx xxxx</div>
-      <div style="font-size:13px; color:var(--muted); margin-top:6px">CallMyOga relay → Owner</div>
+    <p>Call goes through our relay via Africa's Talking. Neither party sees real numbers.</p>
+    <div style="text-align:center;padding:16px 0">
+      <div style="font-size:44px;margin-bottom:8px">📞</div>
+      <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700">+234 xxx xxxx</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px">CallMyOga relay → Owner</div>
     </div>
-    <div style="background:rgba(0,200,83,0.08); border-radius:10px; padding:12px; font-size:13px; color:var(--green); text-align:center; margin-bottom:16px">✅ Both numbers are fully masked</div>
-    <button class="call-btn" style="border-radius:12px; font-size:15px" onclick="closeCallModal()">📞 Dial Now</button>
-    <button class="modal-close" onclick="closeCallModal()">Cancel</button>
+    <div style="background:rgba(0,200,83,0.08);border-radius:10px;padding:10px;font-size:13px;color:var(--green);text-align:center;margin-bottom:14px">✅ Both numbers fully masked</div>
+    <button class="call-btn" onclick="closeModal('call-modal');logContact('call');alert('✅ In production: initiates masked call.')">📞 Dial Now</button>
+    <button class="modal-close" onclick="closeModal('call-modal')">Cancel</button>
   </div>
 </div>
 
-<!-- REPORT MODAL -->
 <div class="modal-overlay" id="report-modal">
   <div class="modal">
     <h3>🚨 Report Misuse</h3>
-    <p>Report if this tag was placed on a car without the owner's consent, or is being used to harass someone.</p>
-    <textarea class="report-textarea" id="report-text" rows="4" placeholder="Describe the misuse e.g. 'This sticker was placed on my car without my permission'"></textarea>
+    <p>Report if this tag was placed without consent or used to harass.</p>
+    <textarea class="report-textarea" id="report-text" rows="4" placeholder="Describe the misuse..."></textarea>
     <button class="report-submit" onclick="submitReport()">Submit Report</button>
-    <button class="modal-close" onclick="closeReportModal()">Cancel</button>
+    <button class="modal-close" onclick="closeModal('report-modal')">Cancel</button>
   </div>
 </div>
 
 <script>
-function goto(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  const nb = document.getElementById('nav-' + page);
-  if (nb) nb.classList.add('active');
-  window.scrollTo(0, 0);
-  if (page === 'dashboard') loadDashboard();
-}
+// ══ PAYSTACK CONFIG ══
+const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY'; // Replace with your key
+const ANNUAL_PRICE = 500000; // ₦5,000 in kobo
 
-function getDB() { return JSON.parse(localStorage.getItem('cmo_tags') || '[]'); }
-function saveDB(d) { localStorage.setItem('cmo_tags', JSON.stringify(d)); }
-function getNotifs() { return JSON.parse(localStorage.getItem('cmo_notifs') || '[]'); }
-function saveNotifs(d) { localStorage.setItem('cmo_notifs', JSON.stringify(d)); }
+// ══ LOCAL DB ══
+function getUsers(){return JSON.parse(localStorage.getItem('cmo_users')||'[]');}
+function saveUsers(d){localStorage.setItem('cmo_users',JSON.stringify(d));}
+function getActivity(){return JSON.parse(localStorage.getItem('cmo_activity')||'[]');}
+function saveActivity(d){localStorage.setItem('cmo_activity',JSON.stringify(d));}
+function getCurrentUser(){return JSON.parse(localStorage.getItem('cmo_current')||'null');}
+function setCurrentUser(u){localStorage.setItem('cmo_current',JSON.stringify(u));}
 
-if (!localStorage.getItem('cmo_seeded')) {
-  saveDB([
-    { code:'CMO-A1B2C3', plate:'LAG 234 AB', state:'Lagos', car:'Toyota Camry · Silver', phone:'08012345678', contacts:12, status:'active', registered:'2024-11-01' },
-    { code:'CMO-D4E5F6', plate:'ABJ 100 GH', state:'Abuja', car:'Honda CRV · Black', phone:'09087654321', contacts:3, status:'active', registered:'2024-11-08' },
-    { code:'CMO-G7H8I9', plate:'RIV 445 JK', state:'Rivers', car:'Toyota Hilux · White', phone:'07011112222', contacts:0, status:'pending', registered:'2024-11-15' },
-    { code:'CMO-J1K2L3', plate:'OYO 567 MN', state:'Oyo', car:'Lexus ES · Grey', phone:'08033334444', contacts:8, status:'active', registered:'2024-10-20' },
-    { code:'CMO-M4N5O6', plate:'KAN 890 PQ', state:'Kano', car:'Peugeot 504 · Blue', phone:'08155556666', contacts:1, status:'inactive', registered:'2024-09-30' },
+// Seed demo data
+if(!localStorage.getItem('cmo_seeded2')){
+  const trialStart = new Date();
+  trialStart.setDate(trialStart.getDate()-3);
+  saveUsers([
+    {id:'u1',fname:'Chukwudi',lname:'Okonkwo',email:'chukwudi@example.com',phone:'08012345678',state:'Lagos',
+     tagCode:'CMO-A1B2C3',plate:'LAG 234 AB',car:'Toyota Camry · Silver',
+     status:'trial',trialStart:trialStart.toISOString(),payments:[],contacts:24},
+    {id:'u2',fname:'Amaka',lname:'Eze',email:'amaka@example.com',phone:'09087654321',state:'Abuja',
+     tagCode:'CMO-D4E5F6',plate:'ABJ 100 GH',car:'Honda CRV · Black',
+     status:'paid',trialStart:new Date(Date.now()-100*86400000).toISOString(),
+     payments:[{date:'2025-01-15',amount:'₦5,000',method:'Card',status:'Success',ref:'PSK_'+Math.random().toString(36).slice(2,10).toUpperCase()}],contacts:8},
+    {id:'u3',fname:'Emeka',lname:'Nwosu',email:'emeka@example.com',phone:'07011112222',state:'Rivers',
+     tagCode:'CMO-G7H8I9',plate:'RIV 445 JK',car:'Toyota Hilux · White',
+     status:'expired',trialStart:new Date(Date.now()-100*86400000).toISOString(),payments:[],contacts:2},
   ]);
-  saveNotifs([
-    { type:'wa', plate:'LAG 234 AB', msg:'WhatsApp contact initiated', time:'2 mins ago' },
-    { type:'call', plate:'ABJ 100 GH', msg:'Masked call connected — 1m 24s', time:'18 mins ago' },
-    { type:'wa', plate:'OYO 567 MN', msg:'WhatsApp contact initiated', time:'1 hr ago' },
-    { type:'report', plate:'KAN 890 PQ', msg:'Misuse reported — under review', time:'2 hrs ago' },
-    { type:'call', plate:'LAG 234 AB', msg:'Masked call connected — 45s', time:'3 hrs ago' },
+  saveActivity([
+    {type:'wa',plate:'LAG 234 AB',name:'Chukwudi Okonkwo',time:'2 mins ago'},
+    {type:'call',plate:'ABJ 100 GH',name:'Amaka Eze',time:'18 mins ago'},
+    {type:'wa',plate:'LAG 234 AB',name:'Chukwudi Okonkwo',time:'1 hr ago'},
+    {type:'report',plate:'RIV 445 JK',name:'Emeka Nwosu',time:'2 hrs ago'},
+    {type:'call',plate:'LAG 234 AB',name:'Chukwudi Okonkwo',time:'3 hrs ago'},
   ]);
-  localStorage.setItem('cmo_seeded', '1');
+  localStorage.setItem('cmo_seeded2','1');
 }
 
-document.getElementById('reg-code').addEventListener('input', function() {
-  const v = this.value.toUpperCase();
-  document.getElementById('reg-code-preview').textContent = v ? 'Tag: ' + v : 'Enter tag code above to preview';
-});
-
-function registerTag() {
-  const code = document.getElementById('reg-code').value.trim().toUpperCase();
-  const phone = document.getElementById('reg-phone').value.trim();
-  const plate = document.getElementById('reg-plate').value.trim().toUpperCase();
-  const state = document.getElementById('reg-state').value;
-  const car = document.getElementById('reg-car').value.trim();
-  const c1 = document.getElementById('consent-ndpr').checked;
-  const c2 = document.getElementById('consent-terms').checked;
-  if (!code || !phone || !plate || !state) { alert('Please fill all required fields'); return; }
-  if (!c1 || !c2) { alert('Please accept the Privacy Policy and Terms of Service to continue'); return; }
-  const db = getDB();
-  const existing = db.find(t => t.code === code);
-  if (existing) { existing.plate = plate; existing.phone = phone; existing.state = state; existing.car = car; existing.status = 'active'; }
-  else { db.push({ code, plate, state, car: car||'Not specified', phone, contacts: 0, status: 'active', registered: new Date().toISOString().split('T')[0] }); }
-  saveDB(db);
-  document.getElementById('scan-plate').textContent = plate;
-  document.getElementById('scan-car-info').textContent = state + (car ? ' · ' + car : '');
-  document.getElementById('scan-masked').textContent = phone.slice(0,4) + '** *** **' + phone.slice(-2);
-  document.getElementById('reg-success').style.display = 'block';
-  document.getElementById('reg-success').scrollIntoView({ behavior: 'smooth' });
+// ══ ROUTER ══
+function goto(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById('page-'+page);
+  if(el)el.classList.add('active');
+  const nb=document.getElementById('nav-'+page);
+  if(nb)nb.classList.add('active');
+  window.scrollTo(0,0);
+  if(page==='profile')loadProfile();
+  if(page==='admin')loadAdmin();
+  updateNav();
 }
 
-function loadDashboard() {
-  const db = getDB(); const notifs = getNotifs();
-  document.getElementById('ds-total').textContent = db.length;
-  document.getElementById('ds-active').textContent = db.filter(t => t.status === 'active').length;
-  document.getElementById('ds-contacts').textContent = notifs.filter(n => n.time.includes('mins') || n.time.includes('min ')).length;
-  document.getElementById('ds-revenue').textContent = '₦' + (db.length * 5000).toLocaleString();
-  renderTable(db); renderNotifs(notifs);
+function updateNav(){
+  const u=getCurrentUser();
+  const ua=document.getElementById('nav-user-area');
+  if(u){
+    const isAdmin=u.email==='admin@callmyoga.com';
+    ua.innerHTML=`
+      ${isAdmin?'<button onclick="goto(\'admin\')" style="color:var(--gold);border-color:rgba(255,214,0,0.4)">⚙️ Admin</button>':''}
+      <div class="avatar" onclick="goto('profile')" title="${u.fname}">${u.fname[0]}</div>`;
+  } else {
+    ua.innerHTML=`<button onclick="goto('login')">Login</button><button onclick="goto('signup')" class="nav-cta">Start Free Trial</button>`;
+  }
 }
 
-function renderTable(db) {
-  document.getElementById('tags-tbody').innerHTML = db.map(t => `
-    <tr>
-      <td style="font-family:'Syne',sans-serif; font-size:13px; color:var(--green)">${t.code}</td>
-      <td><strong>${t.plate}</strong></td><td>${t.state}</td>
-      <td style="color:var(--muted); font-size:13px">${t.car}</td>
-      <td><span class="status-badge status-${t.status}">${t.status}</span></td>
-      <td style="font-family:'Syne',sans-serif">${t.contacts}</td>
-      <td><button class="action-btn" onclick="previewScan('${t.plate}','${t.state}','${t.car}','${t.phone}')">Preview</button></td>
-    </tr>`).join('');
+// ══ TRIAL HELPERS ══
+function getDaysLeft(user){
+  const start=new Date(user.trialStart);
+  const end=new Date(start.getTime()+90*86400000);
+  const left=Math.max(0,Math.ceil((end-Date.now())/86400000));
+  return left;
+}
+function getTrialStatus(user){
+  if(user.status==='paid')return 'paid';
+  const left=getDaysLeft(user);
+  if(left<=0)return 'expired';
+  if(left<=15)return 'warning';
+  return 'trial';
 }
 
-function renderNotifs(notifs) {
-  document.getElementById('notif-list').innerHTML = notifs.map(n => `
-    <div class="notif-item">
-      <div class="notif-dot ${n.type}"></div>
-      <div><div class="notif-text"><strong>${n.plate}</strong> — ${n.msg}</div>
-      <div class="notif-time">${n.type==='wa'?'💬 WhatsApp':n.type==='call'?'📞 Call':'🚨 Report'} · ${n.time}</div></div>
+// ══ AUTH ══
+function signUp(){
+  const fname=document.getElementById('su-fname').value.trim();
+  const lname=document.getElementById('su-lname').value.trim();
+  const email=document.getElementById('su-email').value.trim();
+  const phone=document.getElementById('su-phone').value.trim();
+  const state=document.getElementById('su-state').value;
+  const pass=document.getElementById('su-pass').value;
+  const c1=document.getElementById('su-ndpr').checked;
+  const c2=document.getElementById('su-terms').checked;
+  if(!fname||!lname||!email||!phone||!state||!pass){alert('Please fill all fields');return;}
+  if(pass.length<8){alert('Password must be at least 8 characters');return;}
+  if(!c1||!c2){alert('Please accept Privacy Policy and Terms');return;}
+  const users=getUsers();
+  if(users.find(u=>u.email===email)){alert('Account already exists. Please log in.');goto('login');return;}
+  const tagCode='CMO-'+Math.random().toString(36).slice(2,8).toUpperCase();
+  const newUser={
+    id:'u'+Date.now(),fname,lname,email,phone,state,pass,
+    tagCode,plate:'',car:'',status:'trial',
+    trialStart:new Date().toISOString(),payments:[],contacts:0
+  };
+  users.push(newUser);
+  saveUsers(users);
+  setCurrentUser(newUser);
+  goto('profile');
+  alert(`🎉 Welcome ${fname}! Your 3-month free trial has started.\n\nYour tag code: ${tagCode}\n\nRegister your car in the "Register Car" tab.`);
+}
+
+function logIn(){
+  const email=document.getElementById('li-email').value.trim();
+  const pass=document.getElementById('li-pass').value;
+  if(!email||!pass){alert('Please enter email and password');return;}
+  const users=getUsers();
+  const user=users.find(u=>u.email===email&&u.pass===pass);
+  if(!user){
+    if(email==='admin@callmyoga.com'&&pass==='admin123'){
+      setCurrentUser({fname:'Admin',lname:'',email:'admin@callmyoga.com',isAdmin:true});
+      goto('admin');return;
+    }
+    alert('Invalid email or password');return;
+  }
+  setCurrentUser(user);
+  goto('profile');
+}
+
+function demoLogin(){
+  const users=getUsers();
+  setCurrentUser(users[0]);
+  goto('profile');
+}
+
+function logOut(){
+  localStorage.removeItem('cmo_current');
+  updateNav();
+  goto('home');
+}
+
+// ══ PROFILE ══
+function loadProfile(){
+  const u=getCurrentUser();
+  if(!u){goto('login');return;}
+  // Update header
+  document.getElementById('prof-avatar').textContent=u.fname[0];
+  document.getElementById('prof-name').textContent=u.fname+' '+u.lname;
+  document.getElementById('prof-email').textContent=u.email+' · '+u.state;
+  // Overview
+  const daysLeft=getDaysLeft(u);
+  const tStatus=getTrialStatus(u);
+  document.getElementById('ov-contacts').textContent=u.contacts||0;
+  document.getElementById('ov-days-left').textContent=tStatus==='paid'?'∞':daysLeft;
+  document.getElementById('ov-tag-status').textContent=tStatus==='expired'?'Paused':'Active';
+  if(u.tagCode){
+    document.getElementById('ov-tag-code').textContent=u.tagCode;
+    document.getElementById('ov-tag-code2').textContent=u.tagCode;
+  }
+  if(u.plate)document.getElementById('ov-car-info').textContent=(u.state||'')+(u.car?' · '+u.car:'');
+  // Trial banner
+  renderTrialBanner(tStatus,daysLeft);
+  renderSubDetail(u,tStatus,daysLeft);
+  renderActivity();
+  // Settings prefill
+  document.getElementById('set-name').value=u.fname+' '+u.lname;
+  document.getElementById('set-email').value=u.email;
+  document.getElementById('set-phone').value=u.phone||'';
+}
+
+function renderTrialBanner(status,daysLeft){
+  const el=document.getElementById('trial-status-banner');
+  if(status==='paid'){
+    el.innerHTML=`<div class="trial-banner"><div class="trial-left"><div class="trial-days">✅</div><div class="trial-label"><strong>Subscription Active</strong><br>Annual plan — renews in 365 days</div></div></div>`;
+  } else if(status==='expired'){
+    el.innerHTML=`<div class="trial-expired">🔴 <div><strong style="color:var(--red)">Trial Expired</strong> — Your tag is currently paused.<br><span style="font-size:13px;color:var(--muted)">Pay ₦5,000 to reactivate immediately.</span></div><button class="btn-primary" style="margin-left:auto;font-size:13px;padding:10px 18px;white-space:nowrap;" onclick="switchPTab('pt-subscription',document.querySelectorAll('.p-tab')[1])">Pay Now →</button></div>`;
+  } else if(status==='warning'){
+    el.innerHTML=`<div class="trial-warning">⚠️ <div><strong style="color:var(--gold)">Trial ending in ${daysLeft} days</strong><br><span style="font-size:13px;color:var(--muted)">Subscribe now to avoid interruption.</span></div><button class="btn-primary" style="margin-left:auto;font-size:13px;padding:10px 18px;white-space:nowrap;" onclick="switchPTab('pt-subscription',document.querySelectorAll('.p-tab')[1])">Subscribe →</button></div>`;
+  } else {
+    const pct=Math.round(((90-daysLeft)/90)*100);
+    el.innerHTML=`<div class="trial-banner"><div class="trial-left"><div class="trial-days">${daysLeft}</div><div class="trial-label"><strong>Days left on free trial</strong><br>Full access · No payment needed yet</div></div></div>
+    <div class="progress-bar"><div class="progress-fill${pct>66?' warning':''}" style="width:${pct}%"></div></div>`;
+  }
+}
+
+function renderSubDetail(u,status,daysLeft){
+  const el=document.getElementById('sub-status-detail');
+  const paySection=document.getElementById('pay-section');
+  if(status==='paid'){
+    paySection.style.display='none';
+    el.innerHTML=`<div class="sub-card"><div class="sub-status-row"><div><div style="font-size:14px;color:var(--muted);">Subscription Status</div><div style="font-size:20px;font-weight:700;margin-top:4px;">Annual Plan</div></div><div class="sub-badge sub-active">✅ Active</div></div><div style="font-size:14px;color:var(--muted);">Renews annually · Pay via Paystack</div></div>`;
+    // Payment history
+    if(u.payments&&u.payments.length){
+      const rows=u.payments.map(p=>`<tr><td>${p.date}</td><td>${p.amount}</td><td>${p.method}</td><td><span class="status-badge status-active">${p.status}</span></td><td style="font-size:12px;color:var(--muted)">${p.ref}</td></tr>`).join('');
+      document.getElementById('payment-history-tbody').innerHTML=rows;
+    }
+  } else if(status==='expired'){
+    paySection.style.display='block';
+    el.innerHTML=`<div class="sub-card" style="border-color:rgba(255,59,48,0.3)"><div class="sub-status-row"><div><div style="font-size:14px;color:var(--muted);">Trial Status</div><div style="font-size:20px;font-weight:700;margin-top:4px;">Expired</div></div><div class="sub-badge sub-expired">🔴 Paused</div></div><div style="font-size:14px;color:var(--muted);">Your tag is paused. Subscribe to reactivate.</div></div>`;
+  } else {
+    paySection.style.display='block';
+    const pct=Math.round(((90-daysLeft)/90)*100);
+    const cls=daysLeft<=15?'warning':'';
+    el.innerHTML=`<div class="sub-card"><div class="sub-status-row"><div><div style="font-size:14px;color:var(--muted);">Trial Status</div><div style="font-size:20px;font-weight:700;margin-top:4px;">${daysLeft} days remaining</div></div><div class="sub-badge sub-trial">🟡 Free Trial</div></div><div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div><div style="font-size:13px;color:var(--muted);margin-top:8px;">Trial ends in ${daysLeft} days. Subscribe anytime to continue uninterrupted.</div></div>`;
+  }
+}
+
+function renderActivity(){
+  const acts=getActivity();
+  document.getElementById('activity-list').innerHTML=acts.map(a=>`
+    <div class="activity-item">
+      <div class="a-dot ${a.type}"></div>
+      <div><div class="a-text"><strong>${a.plate}</strong> — ${a.type==='wa'?'WhatsApp contact':a.type==='call'?'Masked call':'Misuse reported'}</div>
+      <div class="a-time">${a.type==='wa'?'💬':a.type==='call'?'📞':'🚨'} ${a.time}</div></div>
     </div>`).join('');
 }
 
-function filterTable(q) { renderTable(getDB().filter(t => t.plate.toLowerCase().includes(q.toLowerCase()) || t.code.toLowerCase().includes(q.toLowerCase()))); }
+// ══ PAYSTACK ══
+function initiatePaystack(){
+  const u=getCurrentUser();
+  if(!u){goto('login');return;}
+  const btn=document.getElementById('paystack-btn');
+  btn.disabled=true;
+  btn.textContent='Opening Paystack...';
 
-function previewScan(plate, state, car, phone) {
-  document.getElementById('scan-plate').textContent = plate;
-  document.getElementById('scan-car-info').textContent = state + (car !== 'Not specified' ? ' · ' + car : '');
-  document.getElementById('scan-masked').textContent = phone.slice(0,4) + '** *** **' + phone.slice(-2);
-  goto('scan');
+  // Check if Paystack loaded
+  if(typeof PaystackPop==='undefined'){
+    // Demo mode - simulate payment
+    simulatePayment(u);
+    btn.disabled=false;
+    btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pay ₦5,000 via Paystack';
+    return;
+  }
+
+  const handler=PaystackPop.setup({
+    key: PAYSTACK_PUBLIC_KEY,
+    email: u.email,
+    amount: ANNUAL_PRICE,
+    currency: 'NGN',
+    ref: 'CMO_'+Date.now()+'_'+Math.random().toString(36).slice(2,8).toUpperCase(),
+    metadata:{
+      custom_fields:[
+        {display_name:'User Name',variable_name:'user_name',value:u.fname+' '+u.lname},
+        {display_name:'Tag Code',variable_name:'tag_code',value:u.tagCode},
+        {display_name:'Plate',variable_name:'plate',value:u.plate}
+      ]
+    },
+    callback:function(response){
+      onPaymentSuccess(response,u);
+      btn.disabled=false;
+      btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pay ₦5,000 via Paystack';
+    },
+    onClose:function(){
+      btn.disabled=false;
+      btn.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pay ₦5,000 via Paystack';
+    }
+  });
+  handler.openIframe();
 }
 
-function openWhatsAppModal() { document.getElementById('wa-modal').classList.add('open'); }
-function confirmWhatsApp() { closeModal(); logContact('wa'); alert('✅ In production: opens WhatsApp relay. Owner gets notified instantly.'); }
-function closeModal() { document.getElementById('wa-modal').classList.remove('open'); }
-function simulateCall() { document.getElementById('call-modal').classList.add('open'); }
-function closeCallModal() { document.getElementById('call-modal').classList.remove('open'); logContact('call'); }
-function openReportModal() { document.getElementById('report-modal').classList.add('open'); }
-function closeReportModal() { document.getElementById('report-modal').classList.remove('open'); }
-function submitReport() {
-  const txt = document.getElementById('report-text').value.trim();
-  if (!txt) { alert('Please describe the misuse'); return; }
-  const notifs = getNotifs();
-  notifs.unshift({ type:'report', plate: document.getElementById('scan-plate').textContent, msg: txt.slice(0,60), time: 'Just now' });
-  saveNotifs(notifs.slice(0,20));
-  closeReportModal();
+function onPaymentSuccess(response,u){
+  const users=getUsers();
+  const idx=users.findIndex(x=>x.id===u.id);
+  const payment={
+    date:new Date().toLocaleDateString('en-NG'),
+    amount:'₦5,000',
+    method:'Paystack',
+    status:'Success',
+    ref:response.reference||response.trxref
+  };
+  if(idx>-1){
+    users[idx].status='paid';
+    users[idx].payments=users[idx].payments||[];
+    users[idx].payments.push(payment);
+    saveUsers(users);
+    setCurrentUser(users[idx]);
+  }
+  alert(`✅ Payment successful!\nReference: ${payment.ref}\nYour subscription is now active for 1 year.`);
+  loadProfile();
+}
+
+function simulatePayment(u){
+  // Demo mode only — simulates a successful payment
+  if(!confirm('DEMO MODE: This simulates a ₦5,000 Paystack payment.\n\nIn production, the real Paystack checkout will open.\n\nSimulate successful payment?'))return;
+  onPaymentSuccess({reference:'DEMO_'+Date.now()},u);
+}
+
+// ══ REGISTER CAR ══
+document.getElementById('reg-code').addEventListener('input',function(){this.value=this.value.toUpperCase();});
+function registerCar(){
+  const code=document.getElementById('reg-code').value.trim().toUpperCase();
+  const phone=document.getElementById('reg-phone').value.trim();
+  const plate=document.getElementById('reg-plate').value.trim().toUpperCase();
+  const state=document.getElementById('reg-state').value;
+  const car=document.getElementById('reg-car').value.trim();
+  if(!code||!phone||!plate||!state){alert('Please fill required fields');return;}
+  const u=getCurrentUser();
+  const users=getUsers();
+  const idx=users.findIndex(x=>x.id===u.id);
+  if(idx>-1){
+    users[idx].plate=plate;users[idx].car=car;users[idx].tagCode=code;users[idx].contactPhone=phone;
+    saveUsers(users);
+    setCurrentUser(users[idx]);
+  }
+  document.getElementById('scan-plate').textContent=plate;
+  document.getElementById('scan-car-info').textContent=state+(car?' · '+car:'');
+  document.getElementById('scan-masked').textContent=phone.slice(0,4)+'** *** **'+phone.slice(-2);
+  document.getElementById('ov-tag-code').textContent=code;
+  document.getElementById('ov-tag-code2').textContent=code;
+  document.getElementById('ov-car-info').textContent=state+(car?' · '+car:'');
+  document.getElementById('reg-success').style.display='block';
+}
+
+// ══ SETTINGS ══
+function saveSettings(){
+  const u=getCurrentUser();
+  const users=getUsers();
+  const idx=users.findIndex(x=>x.id===u.id);
+  const nameParts=document.getElementById('set-name').value.split(' ');
+  if(idx>-1){
+    users[idx].fname=nameParts[0]||u.fname;
+    users[idx].lname=nameParts.slice(1).join(' ')||u.lname;
+    users[idx].email=document.getElementById('set-email').value||u.email;
+    users[idx].phone=document.getElementById('set-phone').value||u.phone;
+    users[idx].state=document.getElementById('set-state').value||u.state;
+    saveUsers(users);setCurrentUser(users[idx]);
+  }
+  alert('✅ Settings saved!');loadProfile();
+}
+
+// ══ ADMIN ══
+function loadAdmin(){
+  const u=getCurrentUser();
+  if(!u||!u.isAdmin){goto('login');return;}
+  const users=getUsers();
+  const paid=users.filter(x=>x.status==='paid');
+  const trial=users.filter(x=>x.status==='trial'||(!x.status));
+  document.getElementById('adm-total').textContent=users.length;
+  document.getElementById('adm-trial').textContent=trial.length;
+  document.getElementById('adm-paid').textContent=paid.length;
+  document.getElementById('adm-revenue').textContent='₦'+(paid.length*5000).toLocaleString();
+  renderAdminTable(users);
+  renderAdminActivity();
+}
+
+function renderAdminTable(users){
+  document.getElementById('admin-tbody').innerHTML=users.map(u=>{
+    const daysLeft=getDaysLeft(u);
+    const s=getTrialStatus(u);
+    return `<tr>
+      <td><strong>${u.fname} ${u.lname}</strong></td>
+      <td style="color:var(--muted)">${u.email}</td>
+      <td>${u.plate||'—'}</td>
+      <td>${u.state||'—'}</td>
+      <td><span class="status-badge status-${s==='paid'?'active':s==='expired'?'expired':'trial'}">${s}</span></td>
+      <td style="font-family:'Syne',sans-serif">${s==='paid'?'∞':daysLeft}</td>
+      <td style="color:var(--green)">${s==='paid'?'₦5,000':'₦0'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderAdminActivity(){
+  const acts=getActivity();
+  document.getElementById('admin-activity').innerHTML=acts.map(a=>`
+    <div class="activity-item" style="padding:12px 20px;">
+      <div class="a-dot ${a.type}"></div>
+      <div><div class="a-text"><strong>${a.name}</strong> · ${a.plate} — ${a.type==='wa'?'WhatsApp':a.type==='call'?'Call':'Report'}</div>
+      <div class="a-time">${a.time}</div></div>
+    </div>`).join('');
+}
+
+function filterAdminTable(q){
+  const users=getUsers().filter(u=>
+    (u.fname+' '+u.lname).toLowerCase().includes(q.toLowerCase())||
+    (u.plate||'').toLowerCase().includes(q.toLowerCase())||
+    (u.email||'').toLowerCase().includes(q.toLowerCase())
+  );
+  renderAdminTable(users);
+}
+
+// ══ TABS ══
+function switchPTab(id,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.p-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(btn)btn.classList.add('active');
+}
+
+// ══ SCAN ══
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function submitReport(){
+  const txt=document.getElementById('report-text').value.trim();
+  if(!txt){alert('Please describe the misuse');return;}
+  const acts=getActivity();
+  acts.unshift({type:'report',plate:document.getElementById('scan-plate').textContent,name:'Anonymous',time:'Just now'});
+  saveActivity(acts.slice(0,30));
+  closeModal('report-modal');
   alert('✅ Report submitted. Our team will investigate within 24 hours.');
 }
-function logContact(type) {
-  const notifs = getNotifs();
-  notifs.unshift({ type, plate: document.getElementById('scan-plate').textContent, msg: type==='wa'?'WhatsApp contact initiated':'Masked call initiated', time:'Just now' });
-  saveNotifs(notifs.slice(0,20));
+function logContact(type){
+  const acts=getActivity();
+  acts.unshift({type,plate:document.getElementById('scan-plate').textContent,name:'Anonymous',time:'Just now'});
+  saveActivity(acts.slice(0,30));
 }
-function addToCart(name, price) { alert(`✅ "${name}" added! In production: Paystack checkout for ₦${price.toLocaleString()}`); }
-loadDashboard();
+
+// ══ INIT ══
+updateNav();
+
+// Admin shortcut: login as admin@callmyoga.com / admin123
+console.log('Admin login: admin@callmyoga.com / admin123');
 </script>
 </body>
 </html>
